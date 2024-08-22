@@ -1,0 +1,29 @@
+*OS*
+
+	Criar as funcionalidades de atribuicao e conclusao das OS's
+
+	Colocar um campo "Atribuição" com as opcoes de tecnico para o Administrador
+
+	Colocar um campo "Auto-atribuição" para o técnico
+
+	Alterar o formato da data
+
+	Alterar o formato do card de status	
+
+	Fazer aparecer o nome do usuario requerinte, e do tecnico atribuido
+
+*ADMINISTRADOR*
+
+	Alterar Historico de OS por OS'S atribuidas no Administrador
+
+	Criar vizualizacao de usuarios pro Administrador
+
+*TECNICO*
+
+	Criar a exibicao de OS's atribuidas ao usuário
+
+	Criar a função de auto-atribuição da OS
+
+*USUARIO*
+
+	Tirar o botao "Concluir" da OS, ja que o usuario nao tem esse privilegio
