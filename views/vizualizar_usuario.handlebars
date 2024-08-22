@@ -1,24 +1,42 @@
 <div class="container mt-4">
-    <div class="row">
-        <h1>Usuários cadastrador</h1>
-        {{#each ordensDeServico}}
-        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-            <div class="card h-100">
-                <div class="card-header bg-primary text-white">
-                    {{this.titulo}}
-                </div>
-                <div class="card-body">
-                    <p class="card-text">{{this.descricao}}</p>
-                    <span class="badge badge-{{statusClass this.status}}">{{this.status}}</span>
-                    <p class="mt-2"><strong>Técnico:</strong> {{this.tecnico}}</p>
-                    <p><strong>Data:</strong> {{this.data}}</p>
-                </div>
-                <div class="card-footer d-flex justify-content-between">
-                    <a href="/os/{{this.id}}" class="btn btn-sm btn-primary">Ver Detalhes</a>
-                    <a href="/os/concluir/{{this.id}}" class="btn btn-sm btn-success">Concluir</a>
-                </div>
-            </div>
+    {{#if alert}}
+        <div id="auto-hide-alert" class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Sucesso!</strong> Usuário cadastrado com sucesso!
         </div>
-        {{/each}}
+    {{/if}}
+    <div class="container mt-4">
+        <h1>Gerenciar Usuários</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Exemplo de linha de usuário -->
+                <tr>
+                    <td>João Silva</td>
+                    <td>joao.silva@example.com</td>
+                    <td>
+                        <a href="/admin/editar/1" class="btn btn-primary btn-edit">Editar</a>
+                        <a href="/admin/excluir/1" class="btn btn-danger btn-delete">Excluir</a>
+                    </td>
+                </tr>
+                <!-- Adicione mais linhas aqui -->
+            </tbody>
+        </table>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const alertElement = document.getElementById('auto-hide-alert');
+        if (alertElement) {
+            setTimeout(() => {
+                alertElement.remove(); // Remove o elemento do DOM
+            }, 4000); // Tempo em milissegundos (4 segundos)
+        }
+    });
+</script>

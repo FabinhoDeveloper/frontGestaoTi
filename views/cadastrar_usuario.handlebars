@@ -1,1 +1,55 @@
-<h1>Olá, esta é a tela de cadastro de usuário!</h1>
+<div class="container mt-5">
+        <h2 class="mb-4">Cadastro de Usuário</h2>
+        <form id="formCadastro" action="http://localhost:3000/cadastrar/usuario" method="POST">
+            <!-- Nome -->
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome</label>
+                <input type="text" class="form-control" id="nome" name="nome" required>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+
+            <!-- Senha -->
+            <div class="mb-3">
+                <label for="senha" class="form-label">Senha</label>
+                <input type="password" class="form-control" id="senha" name="senha" required>
+            </div>
+
+            <!-- Tipo -->
+            <div class="mb-3">
+                <label for="tipo" class="form-label">Tipo</label>
+                <select class="form-select" id="tipo" name="tipo" required>
+                    <option value="" disabled selected>Selecione o tipo</option>
+                    <option value="ADMINISTRADOR">Administrador</option>
+                    <option value="TECNICO">Técnico</option>
+                    <option value="PADRAO">Usuário Padrão</option>
+                </select>
+            </div>
+
+            <!-- Local de Trabalho -->
+            <div class="mb-3">
+                <label for="local" class="form-label">Local de Trabalho</label>
+                <select class="form-select" id="local" name="local_de_trabalho" required>
+                    <option value="" disabled selected>Selecione o local de trabalho</option>
+                    <option value="PREFEITURA">Prefeitura</option>
+                    <option value="CANECO">Caneco</option>
+                    <option value="POUPA_TEMPO">Poupa Tempo</option>
+                    <option value="CEMITERIO">Cemitério</option>
+                    <option value="ALMOXARIFADO">Almoxarifado</option>
+                    <option value="SEC_SAUDE">Sec. de Saúde</option>
+                    <option value="SEC_ESPORTE">Sec. de Esporte</option>
+                    <option value="SEC_MEIO_AMBIENTE">Sec. de Meio Ambiente e Agronegócio</option>
+                    <option value="SEC_OBRAS">Sec. de Planejamento de Obras e Serviços</option>
+                    <option value="SEC_SOCIAL">Sec. de Promoção e Desenvolvimento Social</option>
+                    <option value="SEC_EDUCACAO">Sec. de Educação</option>
+                </select>
+            </div>
+            
+            <!-- Botão de Enviar -->
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
+        </form>
+    </div>

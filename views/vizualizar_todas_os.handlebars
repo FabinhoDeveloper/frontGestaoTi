@@ -4,8 +4,8 @@
             <strong>Sucesso!</strong> OS registrada com sucesso!
         </div>
     {{/if}}
+    <h1>OS's registradas</h1>
     <div class="row">
-        <h1>OS's registradas</h1>
         {{#each ordensDeServico}}
         <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
             <div class="card h-100">
@@ -14,9 +14,10 @@
                 </div>
                 <div class="card-body">
                     <p class="card-text">{{this.descricao}}</p>
-                    <span class="badge badge-{{statusClass this.status}}">{{this.status}}</span>
+                    <span class="badge">{{this.status}}</span>
                     <p class="mt-2"><strong>Técnico:</strong> {{this.tecnico}}</p>
-                    <p><strong>Data:</strong> {{this.data}}</p>
+                    <p><strong>Data:</strong> {{this.data_criacao}}</p>
+                    <p><strong>Requerente:</strong> {{this.usuarioId}}</p>
                 </div>
                 <div class="card-footer d-flex justify-content-between">
                     <a href="/os/{{this.id}}" class="btn btn-sm btn-primary">Ver Detalhes</a>

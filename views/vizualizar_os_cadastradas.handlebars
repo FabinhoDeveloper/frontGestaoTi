@@ -1,6 +1,11 @@
 <div class="container mt-4">
+    {{#if alert}}
+        <div id="auto-hide-alert" class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Sucesso!</strong> OS registrada com sucesso!
+        </div>
+    {{/if}}
+    <h1>OS's registradas por você</h1>
     <div class="row">
-        <h1>OS's cadastradas por você</h1>
         {{#each ordensDeServico}}
         <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
             <div class="card h-100">
@@ -9,9 +14,10 @@
                 </div>
                 <div class="card-body">
                     <p class="card-text">{{this.descricao}}</p>
-                    <span class="badge badge-{{statusClass this.status}}">{{this.status}}</span>
+                    <span class="badge">{{this.status}}</span>
                     <p class="mt-2"><strong>Técnico:</strong> {{this.tecnico}}</p>
-                    <p><strong>Data:</strong> {{this.data}}</p>
+                    <p><strong>Data:</strong> {{this.data_criacao}}</p>
+                    <p><strong>Requerente:</strong> {{this.usuarioId}}</p>
                 </div>
                 <div class="card-footer d-flex justify-content-between">
                     <a href="/os/{{this.id}}" class="btn btn-sm btn-primary">Ver Detalhes</a>
@@ -22,3 +28,14 @@
         {{/each}}
     </div>
 </div>
+
+ <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const alertElement = document.getElementById('auto-hide-alert');
+        if (alertElement) {
+            setTimeout(() => {
+                alertElement.remove(); // Remove o elemento do DOM
+            }, 4000); // Tempo em milissegundos (4 segundos)
+        }
+    });
+</script>

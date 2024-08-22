@@ -41,8 +41,7 @@ app.use("/vizualizar", vizualizarRoutes)
 app.use("/cadastrar", cadastroRoutes)
 
 app.get('/', (req, res) => {
-    const error = req.query.error;
-    res.render('login', { title: 'Login - Gestão TI', error, layout: 'login' });
+    res.render('login', { title: 'Login - Gestão TI', layout: 'login' });
 });
 
 // Iniciar o servidor

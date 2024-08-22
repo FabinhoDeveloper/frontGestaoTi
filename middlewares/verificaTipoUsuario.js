@@ -8,7 +8,7 @@ module.exports = function verificaTipoUsuario(usuario) {
             return 'admin'
         case 'TECNICO':
             return 'tecnico'
-        case 'USUARIO':
+        case 'PADRAO':
             return 'usuario'
     }
 }
