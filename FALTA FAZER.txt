@@ -33,3 +33,5 @@
 	Tirar o botao "Concluir" da OS, ja que o usuario nao tem esse privilegio OK
 
 	Corrigir o encaminhamento no registro de OS's OK
+
+	Criar uma opção CANCELAR OS para o usuario
