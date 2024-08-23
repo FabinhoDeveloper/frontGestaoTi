@@ -1,7 +1,7 @@
 <div class="container mt-4">
     {{#if alert}}
         <div id="auto-hide-alert" class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Sucesso!</strong> OS registrada com sucesso!
+            <strong>Sucesso!</strong> {{mensagem}}
         </div>
     {{/if}}
     <h1>OS's registradas</h1>
@@ -20,7 +20,11 @@
                     <p><strong>Requerente:</strong> {{this.usuarioId}}</p>
                 </div>
                 <div class="card-footer d-flex justify-content-between">
-                    <a href="/os/{{this.id}}" class="btn btn-sm btn-primary">Ver Detalhes</a>
+                    <a href="/os/{{this.id}}" class="btn btn-sm btn-primary">Editar</a>
+                    {{#if @root.isAdmin}}
+                        <a href="/os/{{this.id}}" class="btn btn-sm btn-primary">Atribuir</a>
+                    {{/if}}
+                    <a href="/os/concluir/{{this.id}}" class="btn btn-sm btn-danger">Cancelar</a>
                     <a href="/os/concluir/{{this.id}}" class="btn btn-sm btn-success">Concluir</a>
                 </div>
             </div>

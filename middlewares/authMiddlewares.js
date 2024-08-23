@@ -7,8 +7,8 @@ module.exports = {
         }
     },
 
-    verificaLoginTecnico(req, res, next) {
-        if (req.session.user.tipo === "TECNICO") {
+    verificaLoginTecnicoOuAdministrador(req, res, next) {
+        if (req.session.user.tipo === "TECNICO" || req.session.user.tipo === "ADMINISTRADOR") {
             next()
         } else {
             res.redirect('/login?error=Não autorizado!');

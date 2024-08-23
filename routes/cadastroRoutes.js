@@ -13,7 +13,7 @@ router.get('/usuario', authMiddleware.verificaLoginAdministrador, (req, res) => 
     })
 })
 
-router.get("/os", (req, res) => {
+router.get("/os", authMiddleware.verificaLogin, (req, res) => {
     res.render("cadastrar_os", {
         layout: verificaTipoUsuario(req.session.user),
         user: req.session.user
@@ -40,7 +40,13 @@ router.post("/os", async (req, res) => {
 
             // }) 
             req.session.alert = true
-            res.redirect("/vizualizar/todas-os")
+            req.session.mensagem = "OS cadastrada com sucesso!"
+
+            if (req.session.user.tipo !== 'PADRAO') {
+                res.redirect("/vizualizar/todas-os")
+            } else {
+                res.redirect("/vizualizar/os-cadastradas")
+            }
         })
         .catch(error => {
             console.error('Erro ao enviar dados:', error);
@@ -60,17 +66,35 @@ router.post("/usuario", async (req, res) => {
         local_de_trabalho
     })
         .then(response => {
-            res.render('vizualizar_usuario', {
-                alert: true,
-                layout: verificaTipoUsuario(req.session.user),
-                user: req.session.user
-            }) 
-            
+            // res.render('vizualizar_usuario', {
+            //     alert: true,
+            //     layout: verificaTipoUsuario(req.session.user),
+            //     user: req.session.user
+            // }) 
+
+            req.session.alert = true
+            res.redirect("/vizualizar/usuarios")
         })
         .catch(error => {
             console.error('Erro ao enviar dados:', error);
         });
     
+})
+
+router.delete("/os/concluir/:id", async (req, res) => {
+    const {id} = req.params
+
+    axios.post("http://localhost:8080/os/concluir", {
+        id
+    }).then(response => {
+        req.session.alert = true
+        if (req.session.user.tipo !== "PADRAO") {
+            res.redirect("/vizualizar/todas-os")
+        } else {
+            res.redirect("/vizualizar/os-cadastradas")
+        }
+        
+    })
 })
 
 module.exports = router

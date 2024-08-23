@@ -25,7 +25,6 @@ router.post('/login', async (req, res) => {
 
         if (usuarioValido && usuarioValido.senha === password) {
             req.session.user = usuarioValido;
-            console.log('Usuário salvo na sessão:', req.session.user);
 
             if (usuarioValido.tipo !== 'PADRAO') {
                 res.redirect("/vizualizar/todas-os");
