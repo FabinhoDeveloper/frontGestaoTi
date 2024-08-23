@@ -1,6 +1,6 @@
 *MIDDLEWARE*
 
-	Atribuir os middlewares nas rotas
+	Atribuir os middlewares nas rotas OK
 
 *OS*
 
