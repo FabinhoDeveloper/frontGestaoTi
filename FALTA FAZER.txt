@@ -26,4 +26,4 @@
 
 *USUARIO*
 
-	Tirar o botao "Concluir" da OS, ja que o usuario nao tem esse privilegio
+	Tirar o botao "Concluir" da OS, ja que o usuario nao tem esse privilegio OK
