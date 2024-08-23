@@ -18,9 +18,9 @@
 
 *ADMINISTRADOR*
 
-	Alterar Historico de OS por OS'S atribuidas no Administrador
+	Alterar Historico de OS por OS'S atribuidas no Administrador OK
 
-	Criar vizualizacao de usuarios pro Administrador
+	Criar vizualizacao de usuarios pro Administrador OK* Faltam as operacoes de CRUD
 
 *TECNICO*
 
