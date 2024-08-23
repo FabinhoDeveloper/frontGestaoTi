@@ -1,3 +1,7 @@
+*MIDDLEWARE*
+
+	Atribuir os middlewares nas rotas
+
 *OS*
 
 	Criar as funcionalidades de atribuicao e conclusao das OS's
@@ -27,3 +31,5 @@
 *USUARIO*
 
 	Tirar o botao "Concluir" da OS, ja que o usuario nao tem esse privilegio OK
+
+	Corrigir o encaminhamento no registro de OS's
