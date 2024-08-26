@@ -1,6 +1,6 @@
 <div class="container mt-4">
+    <h1>OS's atribuídas a você</h1>
     <div class="row">
-        <h1>OS's atribuídas a você</h1>
         {{#each ordensDeServico}}
         <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
             <div class="card h-100">
@@ -9,12 +9,12 @@
                 </div>
                 <div class="card-body">
                     <p class="card-text">{{this.descricao}}</p>
-                    <span class="badge badge-{{statusClass this.status}}">{{this.status}}</span>
-                    <p class="mt-2"><strong>Técnico:</strong> {{this.tecnico}}</p>
-                    <p><strong>Data:</strong> {{this.data}}</p>
+                    <p class="card-text"><strong>Status:</strong> {{this.status_os}}</p>
+                    <p class="mt-2"><strong>Técnico:</strong> {{this.tecnico.nome}}</p>
+                    <p><strong>Data:</strong> {{formatarData this.data_criacao}}</p>
+                    <p><strong>Requerente: </strong>{{this.usuario.nome}}</p>
                 </div>
                 <div class="card-footer d-flex justify-content-between">
-                    <a href="/os/{{this.id}}" class="btn btn-sm btn-primary">Ver Detalhes</a>
                     <a href="/os/concluir/{{this.id}}" class="btn btn-sm btn-success">Concluir</a>
                 </div>
             </div>

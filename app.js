@@ -17,6 +17,9 @@ const loginRoutes = require("./routes/loginRoutes")
 const cadastroRoutes = require("./routes/cadastroRoutes")
 const vizualizarRoutes = require("./routes/vizualizarRoutes")
 
+// Importação das funcoes helper
+require('./views/helpers/helpers');
+
 // Configurando o Handlebars como motor de templates
 app.engine('handlebars', exphbs.engine());
 app.set('view engine', 'handlebars');
@@ -28,7 +31,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Configuração de sessão
 app.use(session({
-    secret: 'segredo-super-seguro', // chave secreta para criptografia da sessão
+    secret: process.env.SESSION_SECRET, // chave secreta para criptografia da sessão
     resave: false,
     saveUninitialized: false,
     cookie: { secure: false } // Em produção, isso deve ser 'true' se usar HTTPS
@@ -45,7 +48,7 @@ app.get('/', (req, res) => {
 });
 
 // Iniciar o servidor
-const PORT = 3000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
     console.log(`Servidor rodando em http://localhost:${PORT}`);
 });

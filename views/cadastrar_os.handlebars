@@ -11,6 +11,23 @@
                             <label for="descricao">Descrição</label>
                             <textarea id="descricao" name="descricao" class="form-control" rows="4" placeholder="Digite a descrição da OS..." required></textarea>
                         </div>
+
+                        {{#if (eq tipoUsuario "TECNICO")}}
+                            <div class="form-group form-check">
+                                <input type="checkbox" class="form-check-input" id="autoAtribuicao" name="tecnicoId" value="{{usuarioId}}">
+                                <label class="form-check-label" for="autoAtribuicao">Auto Atribuição</label>
+                            </div>
+                        {{else if (eq tipoUsuario "ADMINISTRADOR")}}
+                            <div class="form-group">
+                                <label for="tecnico">Atribuir a Técnico</label>
+                                <select id="tecnico" name="tecnicoId" class="form-control">
+                                    {{#each tecnicos}}
+                                        <option value="{{this.id}}">{{this.nome}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        {{/if}}
+
                         <button type="submit" class="btn btn-success mt-3">Cadastrar OS</button>
                     </form>
                 </div>

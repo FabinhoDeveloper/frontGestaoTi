@@ -52,13 +52,25 @@ router.get("/os-cadastradas", authMiddleware.verificaLogin, async (req, res) => 
     }    
 });
 
-
-
 router.get("/os-atribuidas", authMiddleware.verificaLoginTecnicoOuAdministrador, async (req, res) => {
-    res.render("vizualizar_os_atribuidas", {
-        layout: verificaTipoUsuario(req.session.user),
-        user: req.session.user
-    })
+    try {
+        const id = req.session.user.id
+
+        const response = await axios.get(`http://localhost:8080/os/atribuicao/${id}`)
+        const listaOs = response.data
+
+        console.log(listaOs)
+
+        res.render("vizualizar_os_atribuidas", {
+            layout: verificaTipoUsuario(req.session.user),
+            user: req.session.user,
+            ordensDeServico: listaOs.reverse()
+        })    
+    } catch (error) {
+        
+    }
+    
+    
 })
 
 router.get("/usuarios", authMiddleware.verificaLoginAdministrador, async (req, res) => {
