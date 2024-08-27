@@ -23,11 +23,10 @@
                     
                 </div>
                 <div class="card-footer d-flex justify-content-between">
-                    <a href="/os/{{this.id}}" class="btn btn-sm btn-primary">Editar</a>
                     {{#if @root.isAdmin}}
                         <a href="/os/{{this.id}}" class="btn btn-sm btn-primary">Atribuir</a>
                     {{/if}}
-                    <a href="/operacoes/os/cancelar/{{this.id}}" class="btn btn-sm btn-danger">Cancelar</a>
+                    <button onclick="cancelarOs({{this.id}})" class="btn btn-sm btn-danger">Cancelar</button>
                 </div>
             </div>
         </div>
@@ -36,12 +35,28 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', (event) => {
-        const alertElement = document.getElementById('auto-hide-alert');
-        if (alertElement) {
-            setTimeout(() => {
-                alertElement.remove(); // Remove o elemento do DOM
-            }, 4000); // Tempo em milissegundos (4 segundos)
-        }
+    const api = axios.create({
+        baseURL: 'http://localhost:8080',
+        timeout: 10000,
+        headers: {
+            'Content-Type': 'application/json',
+        },
     });
+
+    function cancelarOs(id) {
+        if (window.confirm('Tem certeza que deseja cancelar esta OS?')) {
+            api.post(`/os/cancelar/${id}`)
+                .then(response => {
+                    window.alert(response.data.mensagem);
+                    // Forçar a atualização da página
+                    window.location.href = window.location.href.split('?')[0] + '?';
+                })
+                .catch(error => {
+                    console.error('Erro ao cancelar OS:', error);
+                    alert('Ocorreu um erro ao cancelar a OS.');
+                });
+        } else {
+            console.log('Operação de cancelamento cancelada.');
+        }
+    }
 </script>

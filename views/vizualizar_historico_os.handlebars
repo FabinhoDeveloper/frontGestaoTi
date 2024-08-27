@@ -1,0 +1,22 @@
+<div class="container mt-4">
+    <h1>Histórico de OS's</h1>
+    <div class="row">
+        {{#each ordensDeServico}}
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white">
+                    {{this.titulo}}
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{this.descricao}}</p>
+                    <p class="card-text"><strong>Status:</strong> {{this.status_os}}</p>
+                    <p class="mt-2"><strong>Técnico:</strong> {{this.tecnico.nome}}</p>
+                    <p><strong>Data:</strong> {{formatarData this.data_criacao}}</p>
+                    <p><strong>Requerente: </strong>{{this.usuario.nome}}</p>
+                    <p><strong>Data de Fechamento: </strong>{{formatarData this.data_fechamento}}</p>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>

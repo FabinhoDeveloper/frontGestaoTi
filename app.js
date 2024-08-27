@@ -25,6 +25,8 @@ app.engine('handlebars', exphbs.engine());
 app.set('view engine', 'handlebars');
 app.set('views', './views');
 
+app.use(express.json());
+
 // Middleware para servir arquivos estáticos (CSS, JS)
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));

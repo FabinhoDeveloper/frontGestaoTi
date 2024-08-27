@@ -15,10 +15,45 @@
                     <p><strong>Requerente: </strong>{{this.usuario.nome}}</p>
                 </div>
                 <div class="card-footer d-flex justify-content-between">
-                    <a href="/os/concluir/{{this.id}}" class="btn btn-sm btn-success">Concluir</a>
+                    <button onclick="concluirOs({{this.id}})" class="btn btn-sm btn-success">Concluir</button>
                 </div>
             </div>
         </div>
         {{/each}}
     </div>
 </div>
+
+<script>
+    // Configuração do Axios
+    const api = axios.create({
+        baseURL: 'http://localhost:8080',
+        timeout: 10000,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    function concluirOs(id) {
+        console.log('Função chamada com ID:', id); // Teste de função
+        if (window.confirm('Tem certeza que deseja concluir esta OS?')) {
+            api.post(`/os/concluir/${id}`)
+                .then(response => {
+                    window.alert(response.data.mensagem);
+                    // Forçar a atualização da página
+                    window.location.href = window.location.href.split('?')[0] + '?';
+                })
+                .catch(error => {
+                    console.error('Erro ao concluir OS:', error);
+                    alert('Ocorreu um erro ao concluir a OS.');
+                });
+        } else {
+            console.log('Operação de conclusão cancelada.');
+        }
+    }
+
+    setInterval(() => {
+            window.location.reload();
+    }, 30000);
+</script>
+
+

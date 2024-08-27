@@ -2,10 +2,7 @@ const express = require('express')
 const router = express.Router()
 const axios = require("axios")
 
-const verificaTipoUsuario = require("../middlewares/verificaTipoUsuario");
-const { verificaLoginTecnico } = require('../middlewares/authMiddlewares');
-
-
+const api = require("../config/axiosConfig")
 
 router.get('/logout', (req, res) => {
     req.session.destroy((err) => {
@@ -20,7 +17,7 @@ router.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const response = await axios.get(`http://localhost:8080/usuario/listar/email/${email}`);
+        const response = await api.get(`/usuario/listar/email/${email}`);
         const usuarioValido = response.data;
 
         if (usuarioValido && usuarioValido.senha === password) {
@@ -45,8 +42,5 @@ router.post('/login', async (req, res) => {
         });
     }
 });
-
-
-
 
 module.exports = router

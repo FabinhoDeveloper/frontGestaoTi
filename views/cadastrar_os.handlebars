@@ -3,13 +3,23 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header bg-primary text-white">
-                    <h5>Cadastrar Nova OS</h5>
+                    <h5>{{titulo}}</h5>
                 </div>
                 <div class="card-body">
+                    {{#if editarDescricao}}
                     <form action="/cadastrar/os" method="POST">
+                    {{else}}
+                    <form action="/cadastrar/atribuir/os" method="POST">
+                    {{/if}}
+                        <input type="hidden" name="idOs" value="{{idOs}}"> <!-- Campo oculto com o ID da OS -->
+
                         <div class="form-group">
                             <label for="descricao">Descrição</label>
+                            {{#if editarDescricao}}
                             <textarea id="descricao" name="descricao" class="form-control" rows="4" placeholder="Digite a descrição da OS..." required></textarea>
+                            {{else}}
+                            <textarea id="descricao" name="descricao" class="form-control" rows="4" placeholder="Digite a descrição da OS..." required disabled>{{descricao}}</textarea>
+                            {{/if}}
                         </div>
 
                         {{#if (eq tipoUsuario "TECNICO")}}
@@ -28,7 +38,7 @@
                             </div>
                         {{/if}}
 
-                        <button type="submit" class="btn btn-success mt-3">Cadastrar OS</button>
+                        <button type="submit" class="btn btn-success mt-3">{{botao}}</button>
                     </form>
                 </div>
             </div>
