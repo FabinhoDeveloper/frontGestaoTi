@@ -18,7 +18,8 @@ router.get("/todas-os", authMiddleware.verificaLoginTecnicoOuAdministrador ,asyn
             layout: verificaTipoUsuario(req.session.user),
             user: req.session.user,
             ordensDeServico: ordensDeServico,
-            isAdmin: req.session.user.tipo === "ADMINISTRADOR"
+            isAdmin: req.session.user.tipo === "ADMINISTRADOR",
+            title: "Painel - Gestão TI"
         })
 
     } catch (error) {
@@ -29,7 +30,7 @@ router.get("/todas-os", authMiddleware.verificaLoginTecnicoOuAdministrador ,asyn
 
 router.get("/os-cadastradas", authMiddleware.verificaLogin, async (req, res) => {
     try {
-        const response = await api.get(`/os/listar/${req.session.user.id}`)
+        const response = await api.get(`/os/listar-por-usuario/${req.session.user.id}`)
         const listaOs = response.data
 
         const ordensDeServico = Array.isArray(listaOs) ? listaOs.reverse() : [];
@@ -38,7 +39,8 @@ router.get("/os-cadastradas", authMiddleware.verificaLogin, async (req, res) => 
             layout: verificaTipoUsuario(req.session.user),
             user: req.session.user,
             ordensDeServico: ordensDeServico,
-            isNotPadrao: req.session.user.tipo !== "PADRAO"
+            isNotPadrao: req.session.user.tipo !== "PADRAO",
+            title: "Registros - Gestão TI"
         });
 
     } catch (error) {
@@ -47,7 +49,8 @@ router.get("/os-cadastradas", authMiddleware.verificaLogin, async (req, res) => 
                 layout: verificaTipoUsuario(req.session.user),
                 user: req.session.user,
                 ordensDeServico: [],
-                mensagem: "Nenhuma OS encontrada para este usuário."
+                isNotPadrao: req.session.user.tipo !== "PADRAO",
+                title: "Registros - Gestão TI"
             });
         } else {
             console.error('Erro ao buscar ordens de serviço:', error);
@@ -68,7 +71,8 @@ router.get("/os-atribuidas", authMiddleware.verificaLoginTecnicoOuAdministrador,
         res.render("vizualizar_os_atribuidas", {
             layout: verificaTipoUsuario(req.session.user),
             user: req.session.user,
-            ordensDeServico: ordensDeServico
+            ordensDeServico: ordensDeServico,
+            title: "Atribuições - Gestão TI"
         })    
     } catch (error) {
         
@@ -78,7 +82,8 @@ router.get("/os-atribuidas", authMiddleware.verificaLoginTecnicoOuAdministrador,
 router.get('/cadastro-usuario', authMiddleware.verificaLoginAdministrador, (req, res) => {
     res.render("cadastrar_usuario", {
         layout: verificaTipoUsuario(req.session.user),
-        user: req.session.user
+        user: req.session.user,
+        title: "Cadastro de Usuário - Gestão TI"
     })
 })
 
@@ -94,7 +99,8 @@ router.get("/cadastro-os", authMiddleware.verificaLogin, async (req, res) => {
         tecnicos,
         titulo: "Cadastrar nova OS",
         botao: "Cadastrar",
-        editarDescricao: true
+        editarDescricao: true,
+        title: "Registro de OS - Gestão TI"
     })
 })
 
@@ -107,7 +113,8 @@ router.get("/historico-os", authMiddleware.verificaLoginTecnicoOuAdministrador,a
         res.render("vizualizar_historico_os", {
             layout: verificaTipoUsuario(req.session.user),
             user: req.session.user,
-            ordensDeServico: listaOs.reverse()
+            ordensDeServico: listaOs.reverse(),
+            title: "Histórico - Gestão TI"
         })    
     } catch (error) {
         res.json({error: error.message})
@@ -135,6 +142,7 @@ router.get("/atribuir/:id", authMiddleware.verificaLoginAdministrador, async (re
             descricao: ordemDeServico.descricao,
             titulo: "Atribuir OS",
             botao: "Atribuir",
+            title: "Atribuição - Gestão TI"
         })
     } catch (error) {
         res.json({error: error.message})
@@ -149,7 +157,8 @@ router.get("/usuarios", authMiddleware.verificaLoginAdministrador, async (req, r
         res.render("vizualizar_usuario", {
             layout: verificaTipoUsuario(req.session.user),
             user: req.session.user,
-            listaUsuarios
+            listaUsuarios,
+            title: "Lista de Usuários - Gestão TI"
         })
     } catch (error) {
         res.json({error: error.message})
