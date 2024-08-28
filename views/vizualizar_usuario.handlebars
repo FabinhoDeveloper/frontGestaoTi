@@ -7,7 +7,7 @@
                     <th>Nome</th>
                     <th>Email</th>
                     <th>Tipo</th>
-                    <th>Ações</th>
+                    <th>Ações - EDITAR EM DESELVOLVIMENTO</th>
                 </tr>
             </thead>
             {{#each listaUsuarios}}
@@ -18,8 +18,8 @@
                     <td>{{this.email}}</td>
                     <td>{{this.tipo}}</td>
                     <td>
-                        <a href="/admin/editar/1" class="btn btn-primary btn-edit">Editar</a>
-                        <a href="/admin/excluir/1" class="btn btn-danger btn-delete">Excluir</a>
+                        <a class="btn btn-primary btn-edit">Editar</a>
+                        <button onclick="deletarUsuario({{this.id}})" class="btn btn-danger btn-delete">Excluir</button>
                     </td>
                 </tr>
                 <!-- Adicione mais linhas aqui -->
@@ -30,12 +30,44 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', (event) => {
-        const alertElement = document.getElementById('auto-hide-alert');
-        if (alertElement) {
-            setTimeout(() => {
-                alertElement.remove(); // Remove o elemento do DOM
-            }, 4000); // Tempo em milissegundos (4 segundos)
-        }
+    const api = axios.create({
+        baseURL: 'http://localhost:8080',
+        timeout: 10000,
+        headers: {
+            'Content-Type': 'application/json',
+        },
     });
+
+    function deletarUsuario(id) {
+        if (window.confirm('Tem certeza que deseja deletar este usuário?')) {
+            api.delete(`/usuario/deletar/${id}`)
+                .then(response => {
+                    window.alert(response.data.mensagem);
+                    // Forçar a atualização da página
+                    window.location.href = window.location.href.split('?')[0] + '?';
+                })
+                .catch(error => {
+                    console.error('Erro ao deletar usuário:', error);
+                    alert('Ocorreu um erro ao deletar o usuário.');
+                });
+        } else {
+            console.log('Operação de conclusão cancelada.');
+        }
+    }
+
+    function editar(id) {
+        if (window.confirm('Tem certeza que deseja cancelar esta OS?')) {
+            api.post(`/os/cancelar/${id}`)
+                .then(response => {
+                    window.alert(response.data.mensagem);
+                    window.location.href = window.location.href.split('?')[0] + '?';
+                })
+                .catch(error => {
+                    console.error('Erro ao cancelar OS:', error);
+                    alert('Ocorreu um erro ao cancelar a OS.');
+                });
+        } else {
+            console.log('Operação de cancelamento cancelada.');
+        }
+    }
 </script>

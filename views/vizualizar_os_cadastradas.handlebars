@@ -49,7 +49,7 @@
                 .then(response => {
                     window.alert(response.data.mensagem);
                     // Forçar a atualização da página
-                    window.location.href = window.location.href.split('?')[0] + '?';
+                    window.location.href = '/vizualizar/os-cadastradas';
                 })
                 .catch(error => {
                     console.error('Erro ao cancelar OS:', error);

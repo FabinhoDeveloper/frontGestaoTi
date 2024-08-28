@@ -34,13 +34,12 @@
     });
 
     function concluirOs(id) {
-        console.log('Função chamada com ID:', id); // Teste de função
         if (window.confirm('Tem certeza que deseja concluir esta OS?')) {
             api.post(`/os/concluir/${id}`)
                 .then(response => {
                     window.alert(response.data.mensagem);
                     // Forçar a atualização da página
-                    window.location.href = window.location.href.split('?')[0] + '?';
+                    window.location.href = '/vizualizar/os-atribuidas';
                 })
                 .catch(error => {
                     console.error('Erro ao concluir OS:', error);

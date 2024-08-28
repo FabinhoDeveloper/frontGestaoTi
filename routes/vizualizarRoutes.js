@@ -132,7 +132,7 @@ router.get("/atribuir/:id", authMiddleware.verificaLoginAdministrador, async (re
         const osResponse = await api.get(`/os/listar/${idOs}`);
         const ordemDeServico = osResponse.data;
 
-        res.render("cadastrar_os", {
+        res.render("atribuir_os", {
             layout: verificaTipoUsuario(req.session.user),
             user: req.session.user,
             tipoUsuario: req.session.user.tipo,
@@ -140,8 +140,6 @@ router.get("/atribuir/:id", authMiddleware.verificaLoginAdministrador, async (re
             tecnicos,
             idOs,
             descricao: ordemDeServico.descricao,
-            titulo: "Atribuir OS",
-            botao: "Atribuir",
             title: "Atribuição - Gestão TI"
         })
     } catch (error) {
@@ -152,7 +150,7 @@ router.get("/atribuir/:id", authMiddleware.verificaLoginAdministrador, async (re
 router.get("/usuarios", authMiddleware.verificaLoginAdministrador, async (req, res) => {
     try {
         const response = await api.get("/usuario/listar")
-        const listaUsuarios = response.data
+        const listaUsuarios = response.data.filter(usuario => usuario.id !== 1)
 
         res.render("vizualizar_usuario", {
             layout: verificaTipoUsuario(req.session.user),

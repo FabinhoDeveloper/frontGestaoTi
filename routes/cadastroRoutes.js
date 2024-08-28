@@ -36,25 +36,25 @@ router.post("/os", async (req, res) => {
     }
 });
 
-router.post("/usuario", async (req, res) => {
-    const {nome, email, senha, tipo, local_de_trabalho} = req.body;
+// router.post("/usuario", async (req, res) => {
+//     const {nome, email, senha, tipo, local_de_trabalho} = req.body;
     
 
-    api.post('/usuario/cadastrar', {
-        nome,
-        email,
-        senha,
-        tipo,
-        local_de_trabalho
-    })
-        .then(response => {
-            res.redirect("/vizualizar/usuarios")
-        })
-        .catch(error => {
-            console.error('Erro ao enviar dados:', error);
-        });
+//     api.post('/usuario/cadastrar', {
+//         nome,
+//         email,
+//         senha,
+//         tipo,
+//         local_de_trabalho
+//     })
+//         .then(response => {
+//             res.redirect("/vizualizar/usuarios")
+//         })
+//         .catch(error => {
+//             console.error('Erro ao enviar dados:', error);
+//         });
     
-})
+// })
 
 router.delete("/os/concluir/:id", async (req, res) => {
     const {id} = req.params
