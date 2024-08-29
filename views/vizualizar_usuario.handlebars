@@ -7,7 +7,7 @@
                     <th>Nome</th>
                     <th>Email</th>
                     <th>Tipo</th>
-                    <th>Ações - EDITAR EM DESELVOLVIMENTO</th>
+                    <th>Ações</th>
                 </tr>
             </thead>
             {{#each listaUsuarios}}
@@ -18,7 +18,7 @@
                     <td>{{this.email}}</td>
                     <td>{{this.tipo}}</td>
                     <td>
-                        <a class="btn btn-primary btn-edit">Editar</a>
+                        <a href="/vizualizar/editar/{{this.id}}" class="btn btn-primary btn-edit">Editar</a>
                         <button onclick="deletarUsuario({{this.id}})" class="btn btn-danger btn-delete">Excluir</button>
                     </td>
                 </tr>

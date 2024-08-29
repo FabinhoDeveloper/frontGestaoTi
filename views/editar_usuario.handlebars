@@ -1,0 +1,104 @@
+<div class="container mt-5">
+    <h2 class="mb-4">Editar Usuário</h2>
+    <form id="formCadastro">
+        <!-- Nome -->
+        <div class="mb-3">
+            <label for="nome" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="nome" name="nome" value={{usuario.nome}} required>
+        </div>
+
+        <!-- Email -->
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" value={{usuario.email}} required>
+        </div>
+
+        <!-- Senha -->
+        <div class="mb-3">
+            <label for="senha" class="form-label">Senha</label>
+            <input type="text" class="form-control" id="senha" name="senha" value={{usuario.senha}} required>
+        </div>
+
+        <!-- Tipo -->
+        <div class="mb-3">
+            <label for="tipo" class="form-label">Tipo</label>
+                <select class="form-select" id="tipo" name="tipo" required>
+                    <option value='' disabled>Selecione o tipo</option>
+                    <option value="ADMINISTRADOR" {{#if (eq usuario.tipo 'ADMINISTRADOR')}}selected{{/if}}>Administrador</option>
+                    <option value="TECNICO" {{#if (eq usuario.tipo 'TECNICO')}}selected{{/if}}>Técnico</option>
+                    <option value="PADRAO" {{#if (eq usuario.tipo 'PADRAO')}}selected{{/if}}>Usuário Padrão</option>
+                </select>
+        </div>
+
+
+        <!-- Local de Trabalho -->
+        <div class="mb-3">
+            <label for="local" class="form-label">Local de Trabalho</label>
+            <select class="form-select" id="local" name="local_de_trabalho" required>
+                <option value="" disabled {{#if (eq usuario.local_de_trabalho "")}}selected{{/if}}>Selecione o local de trabalho</option>
+                <option value="PREFEITURA" {{#if (eq usuario.local_de_trabalho "PREFEITURA")}}selected{{/if}}>Prefeitura</option>
+                <option value="CANECO" {{#if (eq usuario.local_de_trabalho "CANECO")}}selected{{/if}}>Caneco</option>
+                <option value="POUPA_TEMPO" {{#if (eq usuario.local_de_trabalho "POUPA_TEMPO")}}selected{{/if}}>Poupa Tempo</option>
+                <option value="CEMITERIO" {{#if (eq usuario.local_de_trabalho "CEMITERIO")}}selected{{/if}}>Cemitério</option>
+                <option value="ALMOXARIFADO" {{#if (eq usuario.local_de_trabalho "ALMOXARIFADO")}}selected{{/if}}>Almoxarifado</option>
+                <option value="SEC_SAUDE" {{#if (eq usuario.local_de_trabalho "SEC_SAUDE")}}selected{{/if}}>Sec. de Saúde</option>
+                <option value="SEC_ESPORTE" {{#if (eq usuario.local_de_trabalho "SEC_ESPORTE")}}selected{{/if}}>Sec. de Esporte</option>
+                <option value="SEC_MEIO_AMBIENTE" {{#if (eq usuario.local_de_trabalho "SEC_MEIO_AMBIENTE")}}selected{{/if}}>Sec. de Meio Ambiente e Agronegócio</option>
+                <option value="SEC_OBRAS" {{#if (eq usuario.local_de_trabalho "SEC_OBRAS")}}selected{{/if}}>Sec. de Planejamento de Obras e Serviços</option>
+                <option value="SEC_SOCIAL" {{#if (eq usuario.local_de_trabalho "SEC_SOCIAL")}}selected{{/if}}>Sec. de Promoção e Desenvolvimento Social</option>
+                <option value="SEC_EDUCACAO" {{#if (eq usuario.local_de_trabalho "SEC_EDUCACAO")}}selected{{/if}}>Sec. de Educação</option>
+            </select>
+        </div>
+        
+        <!-- Botão de Enviar -->
+        <button type="submit" class="btn btn-primary">Editar</button>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    const api = axios.create({
+        baseURL: 'http://localhost:8080',
+        timeout: 10000,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    function getIdFromUrl() {
+        const url = window.location.href;
+        const parts = url.split('/');
+        return parts[parts.length - 1]; // Assume que o ID da OS está no final da URL
+    }
+
+    document.getElementById('formCadastro').addEventListener('submit', function(event) {
+        // Prevenir o comportamento padrão do formulário
+        event.preventDefault();
+        // Obter os dados do formulário
+        const formData = new FormData(event.target);
+        const data = {};
+        formData.forEach((value, key) => {
+        data[key] = value;
+        });
+
+        const idUsuario = getIdFromUrl()
+
+        if (window.confirm('Confirmar a edição deste usuário?')) {
+            api.put(`/usuario/editar/${idUsuario}`, data)
+                .then(response => {
+                    // Manipular a resposta bem-sucedida
+                    window.alert('Usuário editado com sucesso!');
+                    window.location.href = "/vizualizar/usuarios"//window.location.href.split('?')[0] + '?';
+                    // Você pode adicionar lógica para limpar o formulário ou redirecionar o usuário aqui
+                })
+                .catch(error => {
+                    // Manipular erros
+                    console.error('Erro ao editar usuário:', error);
+                    window.alert("Erro ao editar usuário!")
+                    // Você pode adicionar lógica para exibir uma mensagem de erro ao usuário aqui
+                });
+        } else {
+            console.log('Operação de edição cancelada.');
+        }        
+    });
+</script>

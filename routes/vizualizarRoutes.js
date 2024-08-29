@@ -7,26 +7,37 @@ const verificaTipoUsuario = require("../middlewares/verificaTipoUsuario")
 
 const api = require("../config/axiosConfig")
 
-router.get("/todas-os", authMiddleware.verificaLoginTecnicoOuAdministrador ,async (req, res) => {    
+router.get("/todas-os", authMiddleware.verificaLoginTecnicoOuAdministrador, async (req, res) => {    
     try {
-        const response = await api.get("/os/listar")
-        const listaOs = response.data.filter(os => os.status_os === "PENDENTE")
+        const response = await api.get("/os/listar");
+        const listaOs = response.data
 
-        const ordensDeServico = Array.isArray(listaOs) ? listaOs.reverse() : [];
+        const ordensDeServico = Array.isArray(listaOs) ? listaOs.filter(os => os.status_os === "PENDENTE").reverse() : [];
 
         res.render("vizualizar_todas_os", {
             layout: verificaTipoUsuario(req.session.user),
             user: req.session.user,
-            ordensDeServico: ordensDeServico,
+            ordensDeServico,
             isAdmin: req.session.user.tipo === "ADMINISTRADOR",
             title: "Painel - Gestão TI"
-        })
+        });
 
     } catch (error) {
-        console.error('Erro ao exibir ordens de serviço:', error);
-        res.status(500).send('Erro interno do servidor');
+        if (error.response && error.response.status === 404) {
+            res.render("vizualizar_todas_os", {
+                layout: verificaTipoUsuario(req.session.user),
+                user: req.session.user,
+                ordensDeServico: [],
+                isAdmin: req.session.user.tipo === "ADMINISTRADOR",
+                title: "Painel - Gestão TI"
+            });
+        } else {
+            console.error('Erro ao buscar ordens de serviço:', error);
+            res.status(500).send('Erro interno do servidor');
+        }
     }
-})
+});
+
 
 router.get("/os-cadastradas", authMiddleware.verificaLogin, async (req, res) => {
     try {
@@ -64,27 +75,29 @@ router.get("/os-atribuidas", authMiddleware.verificaLoginTecnicoOuAdministrador,
         const id = req.session.user.id
 
         const response = await api.get(`/os/atribuicao/${id}`)
-        const listaOs = response.data.filter(os => os.status_os === "PENDENTE")
+        const listaOs = response.data
 
-        const ordensDeServico = Array.isArray(listaOs) ? listaOs.reverse() : [];
+        const ordensDeServico = Array.isArray(listaOs) ? listaOs.filter(os => os.status_os === "PENDENTE").reverse() : [];
 
         res.render("vizualizar_os_atribuidas", {
             layout: verificaTipoUsuario(req.session.user),
             user: req.session.user,
-            ordensDeServico: ordensDeServico,
+            ordensDeServico,
             title: "Atribuições - Gestão TI"
         })    
     } catch (error) {
-        
+        if (error.response && error.response.status === 404) {
+            res.render("vizualizar_os_atribuidas", {
+                layout: verificaTipoUsuario(req.session.user),
+                user: req.session.user,
+                ordensDeServico: [],
+                title: "Atribuições - Gestão TI"
+            });
+        } else {
+            console.error('Erro ao buscar ordens de serviço:', error);
+            res.status(500).send('Erro interno do servidor');
+        }
     }
-})
-
-router.get('/cadastro-usuario', authMiddleware.verificaLoginAdministrador, (req, res) => {
-    res.render("cadastrar_usuario", {
-        layout: verificaTipoUsuario(req.session.user),
-        user: req.session.user,
-        title: "Cadastro de Usuário - Gestão TI"
-    })
 })
 
 router.get("/cadastro-os", authMiddleware.verificaLogin, async (req, res) => {
@@ -104,22 +117,32 @@ router.get("/cadastro-os", authMiddleware.verificaLogin, async (req, res) => {
     })
 })
 
-
 router.get("/historico-os", authMiddleware.verificaLoginTecnicoOuAdministrador,async (req, res) => {
     try {
         const response = await api.get("/os/listar")
-        const listaOs = response.data.filter(os => os.status_os !== "PENDENTE")
+        const listaOs = response.data
+
+        const ordensDeServico = Array.isArray(listaOs) ? listaOs.filter(os => os.status_os !== "PENDENTE").reverse() : [];
 
         res.render("vizualizar_historico_os", {
             layout: verificaTipoUsuario(req.session.user),
             user: req.session.user,
-            ordensDeServico: listaOs.reverse(),
+            ordensDeServico,
             title: "Histórico - Gestão TI"
         })    
     } catch (error) {
-        res.json({error: error.message})
+        if (error.response && error.response.status === 404) {
+            res.render("vizualizar_historico_os", {
+                layout: verificaTipoUsuario(req.session.user),
+                user: req.session.user,
+                ordensDeServico: [],
+                title: "Atribuições - Gestão TI"
+            });
+        } else {
+            console.error('Erro ao buscar ordens de serviço:', error);
+            res.status(500).send('Erro interno do servidor');
+        }
     }
-    
 })
 
 router.get("/atribuir/:id", authMiddleware.verificaLoginAdministrador, async (req, res) => {
@@ -147,6 +170,7 @@ router.get("/atribuir/:id", authMiddleware.verificaLoginAdministrador, async (re
     }
 })
 
+
 router.get("/usuarios", authMiddleware.verificaLoginAdministrador, async (req, res) => {
     try {
         const response = await api.get("/usuario/listar")
@@ -162,5 +186,35 @@ router.get("/usuarios", authMiddleware.verificaLoginAdministrador, async (req, r
         res.json({error: error.message})
     }
 })
+
+router.get('/cadastro-usuario', authMiddleware.verificaLoginAdministrador, (req, res) => {
+    res.render("cadastrar_usuario", {
+        layout: verificaTipoUsuario(req.session.user),
+        user: req.session.user,
+        title: "Cadastro de Usuário - Gestão TI"
+    })
+})
+
+router.get('/editar/:id', authMiddleware.verificaLoginAdministrador, async (req, res) => {
+    try {
+        const {id} = req.params
+        
+        const response = await api.get(`/usuario/listar/${id}`)
+        const usuario = response.data
+
+        res.render("editar_usuario", {
+            layout: verificaTipoUsuario(req.session.user),
+            user: req.session.user,
+            title: "Editar usuário - Gestão TI",
+            usuario
+        })
+
+    } catch (error) {
+        res.json({error: error.message})
+    }
+})
+
+
+
 
 module.exports = router

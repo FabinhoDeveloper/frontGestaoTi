@@ -16,7 +16,7 @@
         <!-- Senha -->
         <div class="mb-3">
             <label for="senha" class="form-label">Senha</label>
-            <input type="password" class="form-control" id="senha" name="senha" required>
+            <input type="text" class="form-control" id="senha" name="senha" required>
         </div>
 
         <!-- Tipo -->
@@ -79,7 +79,7 @@
             api.post('/usuario/cadastrar', data)
                 .then(response => {
                     // Manipular a resposta bem-sucedida
-                    window.alert('Usuário cadastrado com sucesso:');
+                    window.alert('Usuário cadastrado com sucesso!');
                     window.location.href = "/vizualizar/usuarios"//window.location.href.split('?')[0] + '?';
                     // Você pode adicionar lógica para limpar o formulário ou redirecionar o usuário aqui
                 })

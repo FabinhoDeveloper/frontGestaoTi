@@ -43,7 +43,7 @@ app.use(session({
 
 app.use("/", loginRoutes)
 app.use("/vizualizar", vizualizarRoutes)
-app.use("/cadastrar", cadastroRoutes)
+// app.use("/cadastrar", cadastroRoutes)
 
 app.get('/', (req, res) => {
     res.render('login', { title: 'Login - Gestão TI', layout: 'login' });
