@@ -7,6 +7,8 @@ const verificaTipoUsuario = require("../middlewares/verificaTipoUsuario")
 
 const api = require("../config/axiosConfig")
 
+const baseURL = "http://192.168.2.140:8081"
+
 router.get("/todas-os", authMiddleware.verificaLoginTecnicoOuAdministrador, async (req, res) => {    
     try {
         const response = await api.get("/os/listar");
@@ -19,7 +21,8 @@ router.get("/todas-os", authMiddleware.verificaLoginTecnicoOuAdministrador, asyn
             user: req.session.user,
             ordensDeServico,
             isAdmin: req.session.user.tipo === "ADMINISTRADOR",
-            title: "Painel - Gestão TI"
+            title: "Painel - Gestão TI",
+            baseURL
         });
 
     } catch (error) {
@@ -29,7 +32,8 @@ router.get("/todas-os", authMiddleware.verificaLoginTecnicoOuAdministrador, asyn
                 user: req.session.user,
                 ordensDeServico: [],
                 isAdmin: req.session.user.tipo === "ADMINISTRADOR",
-                title: "Painel - Gestão TI"
+                title: "Painel - Gestão TI",
+                baseURL
             });
         } else {
             console.error('Erro ao buscar ordens de serviço:', error);
@@ -51,7 +55,8 @@ router.get("/os-cadastradas", authMiddleware.verificaLogin, async (req, res) => 
             user: req.session.user,
             ordensDeServico: ordensDeServico,
             isNotPadrao: req.session.user.tipo !== "PADRAO",
-            title: "Registros - Gestão TI"
+            title: "Registros - Gestão TI",
+            baseURL
         });
 
     } catch (error) {
@@ -61,7 +66,8 @@ router.get("/os-cadastradas", authMiddleware.verificaLogin, async (req, res) => 
                 user: req.session.user,
                 ordensDeServico: [],
                 isNotPadrao: req.session.user.tipo !== "PADRAO",
-                title: "Registros - Gestão TI"
+                title: "Registros - Gestão TI",
+                baseURL
             });
         } else {
             console.error('Erro ao buscar ordens de serviço:', error);
@@ -83,7 +89,8 @@ router.get("/os-atribuidas", authMiddleware.verificaLoginTecnicoOuAdministrador,
             layout: verificaTipoUsuario(req.session.user),
             user: req.session.user,
             ordensDeServico,
-            title: "Atribuições - Gestão TI"
+            title: "Atribuições - Gestão TI",
+            baseURL
         })    
     } catch (error) {
         if (error.response && error.response.status === 404) {
@@ -91,7 +98,8 @@ router.get("/os-atribuidas", authMiddleware.verificaLoginTecnicoOuAdministrador,
                 layout: verificaTipoUsuario(req.session.user),
                 user: req.session.user,
                 ordensDeServico: [],
-                title: "Atribuições - Gestão TI"
+                title: "Atribuições - Gestão TI",
+                baseURL
             });
         } else {
             console.error('Erro ao buscar ordens de serviço:', error);
@@ -113,7 +121,8 @@ router.get("/cadastro-os", authMiddleware.verificaLogin, async (req, res) => {
         titulo: "Cadastrar nova OS",
         botao: "Cadastrar",
         editarDescricao: true,
-        title: "Registro de OS - Gestão TI"
+        title: "Registro de OS - Gestão TI",
+        baseURL
     })
 })
 
@@ -128,7 +137,7 @@ router.get("/historico-os", authMiddleware.verificaLoginTecnicoOuAdministrador,a
             layout: verificaTipoUsuario(req.session.user),
             user: req.session.user,
             ordensDeServico,
-            title: "Histórico - Gestão TI"
+            title: "Histórico - Gestão TI",
         })    
     } catch (error) {
         if (error.response && error.response.status === 404) {
@@ -136,7 +145,7 @@ router.get("/historico-os", authMiddleware.verificaLoginTecnicoOuAdministrador,a
                 layout: verificaTipoUsuario(req.session.user),
                 user: req.session.user,
                 ordensDeServico: [],
-                title: "Atribuições - Gestão TI"
+                title: "Atribuições - Gestão TI",
             });
         } else {
             console.error('Erro ao buscar ordens de serviço:', error);
@@ -163,7 +172,8 @@ router.get("/atribuir/:id", authMiddleware.verificaLoginAdministrador, async (re
             tecnicos,
             idOs,
             descricao: ordemDeServico.descricao,
-            title: "Atribuição - Gestão TI"
+            title: "Atribuição - Gestão TI",
+            baseURL
         })
     } catch (error) {
         res.json({error: error.message})
@@ -180,7 +190,8 @@ router.get("/usuarios", authMiddleware.verificaLoginAdministrador, async (req, r
             layout: verificaTipoUsuario(req.session.user),
             user: req.session.user,
             listaUsuarios,
-            title: "Lista de Usuários - Gestão TI"
+            title: "Lista de Usuários - Gestão TI",
+            baseURL
         })
     } catch (error) {
         res.json({error: error.message})
@@ -191,7 +202,8 @@ router.get('/cadastro-usuario', authMiddleware.verificaLoginAdministrador, (req,
     res.render("cadastrar_usuario", {
         layout: verificaTipoUsuario(req.session.user),
         user: req.session.user,
-        title: "Cadastro de Usuário - Gestão TI"
+        title: "Cadastro de Usuário - Gestão TI",
+        baseURL
     })
 })
 
@@ -206,7 +218,8 @@ router.get('/editar/:id', authMiddleware.verificaLoginAdministrador, async (req,
             layout: verificaTipoUsuario(req.session.user),
             user: req.session.user,
             title: "Editar usuário - Gestão TI",
-            usuario
+            usuario,
+            baseURL
         })
 
     } catch (error) {
