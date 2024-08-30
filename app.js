@@ -27,7 +27,14 @@ app.set('view engine', 'handlebars');
 app.set('views', './views');
 
 app.use(express.json());
-app.use(cors())
+
+const corsOptions = {
+    origin: '*', // Permite qualquer origem, ajuste conforme necessário
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type'],
+};
+
+app.use(cors(corsOptions));
 
 // Middleware para servir arquivos estáticos (CSS, JS)
 app.use(express.static('public'));
