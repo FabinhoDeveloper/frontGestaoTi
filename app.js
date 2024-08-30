@@ -8,6 +8,7 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const bodyParser = require("body-parser")
 const session = require("express-session")
+const cors = require("cors")
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.set('view engine', 'handlebars');
 app.set('views', './views');
 
 app.use(express.json());
+app.use(cors())
 
 // Middleware para servir arquivos estáticos (CSS, JS)
 app.use(express.static('public'));
@@ -51,6 +53,6 @@ app.get('/', (req, res) => {
 
 // Iniciar o servidor
 const PORT = process.env.PORT;
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0' ,() => {
     console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
