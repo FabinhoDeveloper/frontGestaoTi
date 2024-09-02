@@ -5,16 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{title}}</title>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="icon" href="/assets/Brasao.ico" type="image/x-icon">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <style>
     body {
       padding-top: 56px;
-    },
+    }
+
+    .logo {
+      width: 40px; /* Ajusta o tamanho da imagem conforme necessário */
+      height: 40px;
+      margin-right: 8px; /* Espaçamento entre a imagem e o texto */
+    }
   </style>
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-    <a class="navbar-brand" href="#">Olá, {{{user.nome}}}</a>
+    <img class="logo" src="/assets/Brasao.ico" href="/vizualizar/todas-os" alt="Logo"> <!-- Imagem da logo -->
+    <a class="navbar-brand" href="/vizualizar/os-cadastradas">Olá, {{{user.nome}}}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
