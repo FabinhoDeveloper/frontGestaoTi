@@ -18,6 +18,8 @@
     "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "proxy": "http://192.168.2.140:8081",
+
   "keywords": [],
   "author": "",
   "license": "ISC",

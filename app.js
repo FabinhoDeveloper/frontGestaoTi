@@ -28,13 +28,7 @@ app.set('views', './views');
 
 app.use(express.json());
 
-const corsOptions = {
-    origin: '*', // Permite qualquer origem, ajuste conforme necessário
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type'],
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
 
 // Middleware para servir arquivos estáticos (CSS, JS)
 app.use(express.static('public'));
@@ -52,7 +46,7 @@ app.use(session({
 
 app.use("/", loginRoutes)
 app.use("/vizualizar", vizualizarRoutes)
-// app.use("/cadastrar", cadastroRoutes)
+app.use("/cadastrar", cadastroRoutes)
 
 app.get('/', (req, res) => {
     res.render('login', { title: 'Login - Gestão TI', layout: 'login' });

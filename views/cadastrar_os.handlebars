@@ -52,21 +52,13 @@
         data.id = "{{usuarioId}}";  // Corrigido: O ID do usuário logado vindo do backend como string
         const tipoUsuario = "{{tipoUsuario}}";
         // Configurar a instância do Axios
-        const api = axios.create({
-            baseURL: '{{baseURL}}',
-            timeout: 10000,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
+        
 
         // Enviar a requisição POST
-        api.post('/os/cadastrar', data)
+        axios.post('/cadastrar/os', data)
             .then(response => {
-                // Manipular a resposta bem-sucedida
-                // Manipular a resposta bem-sucedida
                 window.alert('OS cadastrada com sucesso!');
-                // Redirecionar com base no tipo de usuário
+
                 const tipoUsuario = "{{tipoUsuario}}";  // Obter o tipo de usuário vindo do backend
 
                 if (tipoUsuario === "PADRAO") {
@@ -76,7 +68,6 @@
                 }
             })
             .catch(error => {
-                // Manipular erros
                 console.error('Erro ao cadastrar OS:', error);
                 window.alert("Erro ao cadastrar OS!");
             });
