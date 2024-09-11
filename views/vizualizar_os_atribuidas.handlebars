@@ -42,9 +42,9 @@
 
     function concluirOs(id) {
         if (window.confirm('Tem certeza que deseja concluir esta OS?')) {
-            api.post(`/os/concluir/${id}`)
+            axios.post(`/cadastrar/os/concluir/${id}`)
                 .then(response => {
-                    window.alert(response.data.mensagem);
+                    window.alert(response.data.message);
                     // Forçar a atualização da página
                     window.location.href = '/vizualizar/os-atribuidas';
                 })

@@ -1,37 +1,32 @@
 <div class="container mt-5">
-    <h2 class="mb-4">Cadastro de Usuário</h2>
+    <h2 class="mb-4">Cadastre-se</h2>
     <form id="formCadastro">
         <!-- Nome -->
-        <div class="mb-3">
-            <label for="nome" class="form-label">Nome</label>
+        <div class="mb-2">
+            <label for="nome" class="form-label">Nome (Primeira letra maiúscula. Ex: Pedro, Maria)</label>
             <input type="text" class="form-control" id="nome" name="nome" required>
         </div>
 
         <!-- Email -->
-        <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
+        <div class="mb-2">
+            <label for="email" class="form-label">Email (institucional)</label>
             <input type="email" class="form-control" id="email" name="email" required>
         </div>
 
         <!-- Senha -->
-        <div class="mb-3">
-            <label for="senha" class="form-label">Senha</label>
-            <input type="text" class="form-control" id="senha" name="senha" required>
+        <div class="mb-2">
+            <label for="senha" class="form-label" >Senha (4 primeiros dígitos do seu CPF)</label>
+            <input type="password" class="form-control" id="senha" name="senha" required>
         </div>
 
-        <!-- Tipo -->
-        <div class="mb-3">
-            <label for="tipo" class="form-label">Tipo</label>
-            <select class="form-select" id="tipo" name="tipo" required>
-                <option value="" disabled selected>Selecione o tipo</option>
-                <option value="ADMINISTRADOR">Administrador</option>
-                <option value="TECNICO">Técnico</option>
-                <option value="PADRAO">Usuário Padrão</option>
-            </select>
+        <!-- Confirme sua Senha -->
+        <div class="mb-2">
+            <label for="senha" class="form-label" >Confirme sua senha</label>
+            <input type="password" class="form-control" id="confirmarSenha" required>
         </div>
 
         <!-- Local de Trabalho -->
-        <div class="mb-3">
+        <div class="mb-2">
             <label for="local" class="form-label">Local de Trabalho</label>
             <select class="form-select" id="local" name="local_de_trabalho" required>
                 <option value="" disabled selected>Selecione o local de trabalho</option>
@@ -48,9 +43,11 @@
                 <option value="SecEducacao">Sec. de Educação</option>
             </select>
         </div>
+
+        <input type="hidden" name="tipo" value="PADRAO"> <!-- Campo oculto com o ID da OS -->
         
         <!-- Botão de Enviar -->
-        <button type="submit" class="btn btn-primary">Cadastrar</button>
+        <button type="submit" class="btn btn-primary">Cadastrar-se</button>
     </form>
 </div>
 
@@ -72,21 +69,30 @@
         const formData = new FormData(event.target);
         const data = {};
         formData.forEach((value, key) => {
-        data[key] = value;
+            data[key] = value;
         });
 
-        if (window.confirm('Confirmar cadastro deste usuário?')) {
+        const senha = document.getElementById('senha').value;
+        const confirmarSenha = document.getElementById('confirmarSenha').value;
+
+        // Verificação se as senhas são iguais
+        if (senha !== confirmarSenha) {
+            window.alert('As senhas não coincidem. Por favor, verifique.');
+            return; // Para a execução se as senhas não coincidirem
+        }
+
+        if (window.confirm('Confirmar cadastro?')) {
             axios.post('/cadastrar/usuario', data)
                 .then(response => {
                     // Manipular a resposta bem-sucedida
                     window.alert(response.data.message);
-                    window.location.href = "/vizualizar/usuarios"//window.location.href.split('?')[0] + '?';
+                    window.location.href = "/"//window.location.href.split('?')[0] + '?';
                     // Você pode adicionar lógica para limpar o formulário ou redirecionar o usuário aqui
                 })
                 .catch(error => {
                     // Manipular erros
-                    console.error('Erro ao cadastrar usuário:', error);
-                    window.alert("Erro ao cadastrar usuário!")
+                    console.error('Erro ao cadastrar:', error);
+                    window.alert("Erro ao cadastrar!")
                     // Você pode adicionar lógica para exibir uma mensagem de erro ao usuário aqui
                 });
         } else {

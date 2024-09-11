@@ -208,6 +208,14 @@ router.get('/cadastro-usuario', authMiddleware.verificaLoginAdministrador, (req,
     })
 })
 
+router.get('/novo-usuario', (req, res) => {
+    res.render("novo_usuario", {
+        layout: 'login',
+        title: "Cadastre-se - Gestão TI",
+        baseURL
+    })
+})
+
 router.get('/editar/:id', authMiddleware.verificaLoginAdministrador, async (req, res) => {
     try {
         const {id} = req.params

@@ -68,11 +68,10 @@
 
     function concluirOs(id) {
         if (window.confirm('Tem certeza que deseja concluir esta OS?')) {
-            api.post(`/os/concluir/${id}`)
+            axios.post(`/cadastrar/os/concluir/${id}`)
                 .then(response => {
-                    window.alert(response.data.mensagem);
-                    // Forçar a atualização da página
-                    window.location.href = "/vizualizar/todas-os"//window.location.href.split('?')[0] + '?';
+                    window.alert(response.data.message);
+                    window.location.href = "/vizualizar/todas-os"
                 })
                 .catch(error => {
                     console.error('Erro ao concluir OS:', error);
@@ -85,9 +84,9 @@
 
     function cancelarOs(id) {
         if (window.confirm('Tem certeza que deseja cancelar esta OS?')) {
-            api.post(`/os/cancelar/${id}`)
+            axios.post(`/cadastrar/os/cancelar/${id}`)
                 .then(response => {
-                    window.alert(response.data.mensagem);
+                    window.alert(response.data.message);
                     window.location.href = "/vizualizar/todas-os";
                 })
                 .catch(error => {

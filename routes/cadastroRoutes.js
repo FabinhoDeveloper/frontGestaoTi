@@ -1,9 +1,5 @@
 const express = require("express")
 const router = express.Router()
-const axios = require("axios")
-
-const verificaTipoUsuario = require("../middlewares/verificaTipoUsuario")
-const authMiddleware = require("../middlewares/authMiddlewares")
 
 const api = require("../config/axiosConfig") // Importação da URL padrão
 
@@ -30,7 +26,7 @@ router.post('/os', async (req, res) => {
 router.post('/os/atribuir/:id', async (req, res) => {
     const {id} = req.params
     const {idUsuario} = req.body
-    
+
     try {
         await api.post(`/os/atribuir/${id}`, {
             idUsuario
@@ -42,54 +38,80 @@ router.post('/os/atribuir/:id', async (req, res) => {
     }
 })
 
-// // router.post("/usuario", async (req, res) => {
-// //     const {nome, email, senha, tipo, local_de_trabalho} = req.body;
+router.post("/os/concluir/:id", async (req, res) => {
+    const {id} = req.params
+
+    try {
+        await api.post(`/os/concluir/${id}`)
+
+        res.json({ success: true, message: 'OS concluída com sucesso' });
+    } catch (error) {
+        res.json({ success: false, message: 'Erro ao concluir OS' });
+    }
+})
+
+router.post("/os/cancelar/:id", async (req, res) => {
+    const {id} = req.params
+
+    try {
+        await api.post(`/os/cancelar/${id}`)
+
+        res.json({ success: true, message: 'OS cancelada com sucesso' });
+    } catch (error) {
+        res.json({ success: false, message: 'Erro ao cancelar OS' });
+    }
+})
+
+router.post("/usuario", async (req, res) => {
+    const {nome, email, senha, tipo, local_de_trabalho} = req.body;
     
-
-// //     api.post('/usuario/cadastrar', {
-// //         nome,
-// //         email,
-// //         senha,
-// //         tipo,
-// //         local_de_trabalho
-// //     })
-// //         .then(response => {
-// //             res.redirect("/vizualizar/usuarios")
-// //         })
-// //         .catch(error => {
-// //             console.error('Erro ao enviar dados:', error);
-// //         });
-    
-// // })
-
-// router.delete("/os/concluir/:id", async (req, res) => {
-//     const {id} = req.params
-
-//     api.post("/os/concluir", {
-//         id
-//     }).then(response => {
-//         req.session.alert = true
-//         if (req.session.user.tipo !== "PADRAO") {
-//             res.redirect("/vizualizar/todas-os")
-//         } else {
-//             res.redirect("/vizualizar/os-cadastradas")
-//         }
+    try {
+        await api.post('/usuario/cadastrar', {
+            nome,
+            email,
+            senha,
+            tipo,
+            local_de_trabalho
+        })
         
-//     })
-// })
+        res.json({ success: true, message: 'Usuário cadastrado com sucesso' });
 
-// router.post("/atribuir/os", authMiddleware.verificaLogin, async (req, res) => {
-//     const { idOs, tecnicoId } = req.body;
-    
-//     try {
-//         const osAtribuida = await api.post(`/os/atribuir/${idOs}`, { idUsuario: tecnicoId });
+    } catch (error) {
+        res.json({ success: false, message: 'Erro ao cadastrar usuário' });
+    }
+})
 
-//         res.redirect("/vizualizar/todas-os");
-//     } catch (error) {
-//         console.error("Erro ao atribuir OS:", error);
-//         res.status(500).send("Erro ao atribuir OS.");
-//     }
-// });
+router.put("/usuario/editar/:idUsuario", async (req, res) => {
+    const {idUsuario} = req.params
+    const {nome, email, senha, tipo, local_de_trabalho} = req.body;
+
+    try {
+        await api.put(`/usuario/editar/${idUsuario}`, {
+            nome,
+            email,
+            senha,
+            tipo,
+            local_de_trabalho
+        })
+        
+        res.json({ success: true, message: 'Usuário editado com sucesso' });
+
+    } catch (error) {
+        res.json({ success: false, message: 'Erro ao editar usuário' });
+    }
+})
+
+router.delete("/usuario/deletar/:id", async (req, res) => {
+    const {id} = req.params
+
+    try {
+        await api.delete(`/usuario/deletar/${id}`)
+
+        res.json({ success: true, message: 'Usuário deletado com sucesso' });
+    } catch (error) {
+        res.json({ success: false, message: 'Erro ao deletar usuário' });
+    }
+}) 
 
 
 module.exports = router

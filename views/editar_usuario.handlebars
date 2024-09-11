@@ -83,11 +83,12 @@
 
         const idUsuario = getIdFromUrl()
 
+
         if (window.confirm('Confirmar a edição deste usuário?')) {
-            api.put(`/usuario/editar/${idUsuario}`, data)
+            axios.put(`/cadastrar/usuario/editar/${idUsuario}`, data)
                 .then(response => {
                     // Manipular a resposta bem-sucedida
-                    window.alert('Usuário editado com sucesso!');
+                    window.alert(response.data.message);
                     window.location.href = "/vizualizar/usuarios"//window.location.href.split('?')[0] + '?';
                     // Você pode adicionar lógica para limpar o formulário ou redirecionar o usuário aqui
                 })

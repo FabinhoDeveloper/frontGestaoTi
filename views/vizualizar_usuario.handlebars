@@ -40,11 +40,11 @@
 
     function deletarUsuario(id) {
         if (window.confirm('Tem certeza que deseja deletar este usuário?')) {
-            api.delete(`/usuario/deletar/${id}`)
+            axios.delete(`/cadastrar/usuario/deletar/${id}`)
                 .then(response => {
-                    window.alert(response.data.mensagem);
+                    window.alert(response.data.message);
                     // Forçar a atualização da página
-                    window.location.href = window.location.href.split('?')[0] + '?';
+                    window.location.href = "/vizualizar/usuarios";
                 })
                 .catch(error => {
                     console.error('Erro ao deletar usuário:', error);
@@ -55,19 +55,4 @@
         }
     }
 
-    function editar(id) {
-        if (window.confirm('Tem certeza que deseja cancelar esta OS?')) {
-            api.post(`/os/cancelar/${id}`)
-                .then(response => {
-                    window.alert(response.data.mensagem);
-                    window.location.href = window.location.href.split('?')[0] + '?';
-                })
-                .catch(error => {
-                    console.error('Erro ao cancelar OS:', error);
-                    alert('Ocorreu um erro ao cancelar a OS.');
-                });
-        } else {
-            console.log('Operação de cancelamento cancelada.');
-        }
-    }
 </script>

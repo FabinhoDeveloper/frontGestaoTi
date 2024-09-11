@@ -62,18 +62,17 @@
 
         console.log(data)
         // Construir o endpoint dinamicamente com o ID da OS
-        api.post(`/os/atribuir/${idOs}`, {
+        axios.post(`/cadastrar/os/atribuir/${idOs}`, {
             idUsuario: data.tecnicoId
         })
             .then(response => {
                 // Manipular a resposta bem-sucedida
-                window.alert('OS atribuída com sucesso!');
+                window.alert(response.data.message);
                 window.location.href = "/vizualizar/todas-os"; // Redirecionar após o sucesso
             })
             .catch(error => {
                 // Manipular erros
                 console.error('Erro ao atribuir OS:', error);
-                console.log(data)
                 window.alert("Erro ao atribuir OS!");
             });
     });
