@@ -19,6 +19,7 @@ router.get("/todas-os", authMiddleware.verificaLoginTecnicoOuAdministrador, asyn
         res.render("vizualizar_todas_os", {
             layout: verificaTipoUsuario(req.session.user),
             user: req.session.user,
+            usuarioId: req.session.user.id,
             ordensDeServico,
             isAdmin: req.session.user.tipo === "ADMINISTRADOR",
             title: "Painel - Gestão TI",

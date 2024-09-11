@@ -7,8 +7,6 @@ const authMiddleware = require("../middlewares/authMiddlewares")
 
 const api = require("../config/axiosConfig") // Importação da URL padrão
 
-
-
 router.post('/os', async (req, res) => {
     const { descricao, tecnicoId } = req.body;
     const { id } = req.session.user;
@@ -29,6 +27,20 @@ router.post('/os', async (req, res) => {
     }   
 });
 
+router.post('/os/atribuir/:id', async (req, res) => {
+    const {id} = req.params
+    const {idUsuario} = req.body
+    
+    try {
+        await api.post(`/os/atribuir/${id}`, {
+            idUsuario
+        })
+
+        res.json({ success: true, message: 'OS atribuída com sucesso' });
+    } catch (error) {
+        res.json({ success: false, message: 'Erro ao cadastrar OS' });
+    }
+})
 
 // // router.post("/usuario", async (req, res) => {
 // //     const {nome, email, senha, tipo, local_de_trabalho} = req.body;

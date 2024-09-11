@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router()
-const axios = require("axios")
 
 const api = require("../config/axiosConfig")
 
@@ -15,7 +14,6 @@ router.get('/logout', (req, res) => {
 
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
-
     try {
         const response = await api.get(`/usuario/listar/email/${email}`);
         const usuarioValido = response.data;
@@ -36,6 +34,7 @@ router.post('/login', async (req, res) => {
             });
         }
     } catch (error) {
+        console.log(error)
         res.render("login", {
             layout: 'login',
             error: 'Erro ao processar a solicitação'

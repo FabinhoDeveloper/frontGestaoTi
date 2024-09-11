@@ -22,7 +22,10 @@
                     <div class="card-footer d-flex justify-content-between">
                         {{#if @root.isAdmin}}
                             <a href="/vizualizar/atribuir/{{this.id}}" class="btn btn-sm btn-primary">Atribuir</a>
+                        {{else}}
+                            <button onclick="atribuirOsASiMesmo({{this.id}}, {{@root.usuarioId}})" class="btn btn-sm btn-primary">Atrubuir-se</button>
                         {{/if}}
+
                         <button onclick="cancelarOs({{this.id}})" class="btn btn-sm btn-danger">Cancelar</button>
                         <button onclick="concluirOs({{this.id}})" class="btn btn-sm btn-success">Concluir</button>
                     </div>
@@ -45,6 +48,23 @@
             'Content-Type': 'application/json',
         },
     });
+
+    
+    function atribuirOsASiMesmo(id, idUsuario) {
+        if (window.confirm('Tem certeza que deseja atribuir-se esta OS?')) {
+            axios.post(`/cadastrar/os/atribuir/${id}`, {
+                idUsuario
+            })
+            .then(response => {
+                window.alert(response.data.message);
+                window.location.href = "/vizualizar/os-atribuidas"
+            })
+            .catch(error => {
+                console.error('Erro ao atribuir OS:', error);
+                alert('Ocorreu um erro ao atribuir a OS.');
+            })
+        }
+    }
 
     function concluirOs(id) {
         if (window.confirm('Tem certeza que deseja concluir esta OS?')) {
