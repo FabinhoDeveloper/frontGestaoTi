@@ -39,16 +39,26 @@ router.post('/os/atribuir/:id', async (req, res) => {
 })
 
 router.post("/os/concluir/:id", async (req, res) => {
-    const {id} = req.params
+    const { id } = req.params;
+    let { observacao } = req.body;
+
+    if (!id) {
+        return res.status(400).json({ success: false, message: 'ID é obrigatório' });
+    }
+
+    if (!observacao) {
+        observacao = null
+    }
 
     try {
-        await api.post(`/os/concluir/${id}`)
-
-        res.json({ success: true, message: 'OS concluída com sucesso' });
+        await api.post(`/os/concluir/${id}`, { observacao });
+        res.status(200).json({ success: true, message: 'OS concluída com sucesso' });
     } catch (error) {
-        res.json({ success: false, message: 'Erro ao concluir OS' });
+        console.error('Erro ao concluir OS:', error); // Log do erro para depuração
+        res.status(500).json({ success: false, message: 'Erro ao concluir OS', error: error.message });
     }
-})
+});
+
 
 router.post("/os/cancelar/:id", async (req, res) => {
     const {id} = req.params

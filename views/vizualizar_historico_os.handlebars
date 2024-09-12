@@ -1,3 +1,13 @@
+<style>
+    .observacoes-textarea {
+    width: 100%; /* Ajusta para o tamanho total do card */
+    resize: none; /* Impede o redimensionamento */
+    overflow: hidden; /* Oculta barras de rolagem desnecessárias */
+    background-color: transparent; /* Torna o fundo transparente para combinar com o card */
+}
+
+</style>
+
 <div class="container mt-4">
     <h1>Histórico de OS's</h1>
     <div class="row">
@@ -15,6 +25,10 @@
                         <p><strong>Data:</strong> {{formatarData this.data_criacao}}</p>
                         <p><strong>Requerente: </strong>{{this.usuario.nome}}</p>
                         <p><strong>Data de Fechamento: </strong>{{formatarData this.data_fechamento}}</p>
+                        {{#if this.observacao}}
+                            <p><strong>Observações: </strong></p>
+                            <textarea class="observacoes-textarea" readonly>{{this.observacao}}</textarea>
+                        {{/if}}
                     </div>
                 </div>
             </div>

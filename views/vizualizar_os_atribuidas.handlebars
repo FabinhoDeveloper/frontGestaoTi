@@ -17,7 +17,7 @@
                         <p><strong>Requerente: </strong>{{this.usuario.nome}}</p>
                     </div>
                     <div class="card-footer d-flex justify-content-between">
-                        <button onclick="concluirOs({{this.id}})" class="btn btn-sm btn-success">Concluir</button>
+                        <a href="/vizualizar/finalizar-os/{{this.id}}" class="btn btn-sm btn-success">Concluir</a> 
                     </div>
                 </div>
             </div>
@@ -40,22 +40,6 @@
         },
     });
 
-    function concluirOs(id) {
-        if (window.confirm('Tem certeza que deseja concluir esta OS?')) {
-            axios.post(`/cadastrar/os/concluir/${id}`)
-                .then(response => {
-                    window.alert(response.data.message);
-                    // Forçar a atualização da página
-                    window.location.href = '/vizualizar/os-atribuidas';
-                })
-                .catch(error => {
-                    console.error('Erro ao concluir OS:', error);
-                    alert('Ocorreu um erro ao concluir a OS.');
-                });
-        } else {
-            console.log('Operação de conclusão cancelada.');
-        }
-    }
 
     setInterval(() => {
             window.location.reload();

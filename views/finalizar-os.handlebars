@@ -1,0 +1,93 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5>Finalizar OS</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" id="formAtribuicao">
+                        <input type="hidden" name="idOs" value="{{idOs}}"> <!-- Campo oculto com o ID da OS -->
+
+                        <div class="form-group">
+                            <label for="descricao">Descrição</label>
+                            <textarea id="descricao" name="descricao" class="form-control" rows="4" placeholder="Digite a descrição da OS..." required disabled>{{descricao}}</textarea>
+                        </div>
+
+                        <div class="form-group"></div>
+                            <label for="descricao">Observação</label>
+                            <textarea id="descricao" name="observacao" class="form-control" rows="3" placeholder="Deseja incluir alguma observação?" ></textarea>
+                        </div>
+
+                        {{#if (eq tipoUsuario "TECNICO")}}
+                            <div class="form-group form-check">
+                                <input type="checkbox" class="form-check-input" id="autoAtribuicao" name="tecnicoId" value="{{usuarioId}}">
+                                <label class="form-check-label" for="autoAtribuicao">Auto Atribuição</label>
+                            </div>
+                        {{else if (eq tipoUsuario "ADMINISTRADOR")}}
+                            <div class="form-group">
+                                <label for="tecnico">Atribuir a Técnico</label>
+                                <select id="tecnico" name="tecnicoId" class="form-control">
+                                    {{#each tecnicos}}
+                                        <option value="{{this.id}}">{{this.nome}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        {{/if}} 
+
+                        <button type="submit" class="btn btn-success mt-3">Finalizar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('formAtribuicao').addEventListener('submit', function(event) {
+        // Prevenir o comportamento padrão do formulário
+        event.preventDefault();
+
+        // Obter o ID da OS da URL
+        const idOs = getIdFromUrl();
+        // Obter os dados do formulário
+        const formData = new FormData(event.target);
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        }); 
+
+        const api = axios.create({
+            baseURL: '{{baseURL}}',
+            timeout: 10000,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        console.log(data)
+        // Construir o endpoint dinamicamente com o ID da OS
+        if (window.confirm('Deseja finalizar esta OS?')) {
+            axios.post(`/cadastrar/os/concluir/${idOs}`, {
+            observacao: data.observacao
+            })
+            .then(response => {
+                // Manipular a resposta bem-sucedida
+                window.alert(response.data.message);
+                window.location.href = "/vizualizar/todas-os"; // Redirecionar após o sucesso
+            })
+            .catch(error => {
+                // Manipular erros
+                console.error('Erro ao finalizar OS:', error);
+                window.alert("Erro ao finalizar OS!");
+            });
+        }
+    });
+
+    // Função para obter o ID da URL
+    function getIdFromUrl() {
+        const url = window.location.href;
+        const parts = url.split('/');
+        return parts[parts.length - 1]; // Assume que o ID da OS está no final da URL
+    }
+</script>

@@ -155,6 +155,36 @@ router.get("/historico-os", authMiddleware.verificaLoginTecnicoOuAdministrador,a
     }
 })
 
+// Nova rota de finalizar OS
+
+router.get("/finalizar-os/:id", authMiddleware.verificaLoginTecnicoOuAdministrador, async (req, res) => {
+    const {id} = req.params
+    
+    try {
+        const response = await api.get(`/os/listar/${id}`)
+        const os = response.data
+
+        res.render("finalizar-os", {
+            layout: verificaTipoUsuario(req.session.user),
+            user: req.session.user,
+            descricao: os.descricao,
+            title: "Concluir OS - Gestão TI",
+        })    
+    } catch (error) {
+        if (error.response && error.response.status === 404) {
+            res.render("vizualizar_historico_os", {
+                layout: verificaTipoUsuario(req.session.user),
+                user: req.session.user,
+                ordensDeServico: [],
+                title: "Atribuições - Gestão TI",
+            });
+        } else {
+            console.error('Erro ao buscar ordens de serviço:', error);
+            res.status(500).send('Erro interno do servidor');
+        }
+    }
+})
+
 router.get("/atribuir/:id", authMiddleware.verificaLoginAdministrador, async (req, res) => {
     try {
         const idOs = req.params.id
