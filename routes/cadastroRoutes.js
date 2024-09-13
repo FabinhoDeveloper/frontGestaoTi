@@ -4,13 +4,15 @@ const router = express.Router()
 const api = require("../config/axiosConfig") // Importação da URL padrão
 
 router.post('/os', async (req, res) => {
-    const { descricao, tecnicoId } = req.body;
+    const { descricao, tecnicoId, local_os } = req.body;
     const { id } = req.session.user;
-        
+
+
     try {
         // Enviar dados para o endpoint de cadastro de OS
         await api.post('/os/cadastrar', {
             descricao: descricao,
+            local_os: local_os,
             id: id,
             tecnicoId
         });

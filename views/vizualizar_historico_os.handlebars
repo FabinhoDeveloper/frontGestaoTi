@@ -2,7 +2,6 @@
     .observacoes-textarea {
     width: 100%; /* Ajusta para o tamanho total do card */
     resize: none; /* Impede o redimensionamento */
-    overflow: hidden; /* Oculta barras de rolagem desnecessárias */
     background-color: transparent; /* Torna o fundo transparente para combinar com o card */
 }
 
@@ -25,6 +24,7 @@
                         <p><strong>Data:</strong> {{formatarData this.data_criacao}}</p>
                         <p><strong>Requerente: </strong>{{this.usuario.nome}}</p>
                         <p><strong>Data de Fechamento: </strong>{{formatarData this.data_fechamento}}</p>
+                        <p><strong>Local: </strong>{{this.local_os}}</p>
                         {{#if this.observacao}}
                             <p><strong>Observações: </strong></p>
                             <textarea class="observacoes-textarea" readonly>{{this.observacao}}</textarea>

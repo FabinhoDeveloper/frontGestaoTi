@@ -26,7 +26,37 @@
                                     {{/each}}
                                 </select>
                             </div>
-                        {{/if}} 
+                        {{/if}}
+
+                        <div class="form-group mb-3">
+                            <label for="local" class="form-label">Local</label>
+                            <select class="form-control" id="local" name="local_os" required>
+                                <option value="" disabled selected>Selecione o local</option>
+                                <option value="Prefeitura">Prefeitura</option>
+                                <option value="Caneco">Caneco</option>
+                                <option value="PoupaTempo">Poupa Tempo</option>
+                                <option value="Cemiterio">Cemitério</option>
+                                <option value="Almoxarifado">Almoxarifado</option>
+                                <option value="Cras">CRAS</option>
+                                <option value="Sec. Saude">Sec. de Saúde</option>
+                                <option value="Sec. Esporte">Sec. de Esporte</option>
+                                <option value="Sec. MeioAmbiente">Sec. de Meio Ambiente e Agronegócio</option>
+                                <option value="Sec. Obras">Sec. de Planejamento de Obras e Serviços</option>
+                                <option value="Sec. Social">Sec. de Promoção e Desenvolvimento Social</option>
+                                <option value="Sec. Educacao">Sec. de Educação</option>
+                                <option value="Escola Capitão">Escola Capitão</option>
+                                <option value="Escola Maria Mendes">Escola Maria Mendes</option>
+                                <option value="Escola Marilda Garcez">Escola Marilda Garcez</option>
+                                <option value="Creche">Creche</option>
+                                <option value="ArcoIris">Arco Íris</option>
+                                <option value="UBS Palha">UBS Palha</option>
+                                <option value="UBS Palha">PSF União</option>
+                                <option value="ESF Figueira">PSF Figueira</option>
+                                <option value="PSF Porteira">PSF Porteira</option>
+                                <option value="Hospital">Hospital Municipal</option>
+                                <option value="Outro">Outro...</option>
+                            </select>
+                        </div> 
 
                         <button type="submit" class="btn btn-success mt-3">{{botao}}</button>
                     </form>
@@ -48,11 +78,12 @@
             data[key] = value;
         });
 
+        
+
         // Adicionar o ID do usuário logado aos dados
         data.id = "{{usuarioId}}";  // Corrigido: O ID do usuário logado vindo do backend como string
         const tipoUsuario = "{{tipoUsuario}}";
         // Configurar a instância do Axios
-        
 
         // Enviar a requisição POST
         axios.post('/cadastrar/os', data)

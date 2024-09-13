@@ -21,13 +21,22 @@
                             <p class="mt-2"><strong>Técnico:</strong> Não atribuída</p>
                         {{/if}}
                         <p><strong>Data:</strong> {{formatarData this.data_criacao}}</p>
-                        
+                        <p><strong>Local:</strong> {{this.local_os}}</p>
+
                     </div>
                     <div class="card-footer d-flex justify-content-between">
                         {{#if @root.isAdmin}}
                             <a href="/os/{{this.id}}" class="btn btn-sm btn-primary">Atribuir</a>
                         {{/if}}
-                        <button onclick="cancelarOs({{this.id}})" class="btn btn-sm btn-danger">Cancelar</button>
+
+                        {{#if (eq this.status_os "CONCLUÍDA")}}
+                            <p>OS Concluída</p>
+
+                        {{else if (eq this.status_os "CANCELADA") }}
+                            <p>OS Cancelada</p>
+                        {{else}}
+                            <button onclick="cancelarOs({{this.id}})" class="btn btn-sm btn-danger">Cancelar</button>
+                        {{/if}}
                     </div>
                 </div>
             </div>
