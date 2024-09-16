@@ -4,7 +4,7 @@ const router = express.Router()
 const api = require("../config/axiosConfig") // Importação da URL padrão
 
 router.post('/os', async (req, res) => {
-    const { descricao, tecnicoId, local_os } = req.body;
+    const { descricao, tecnicoId, local_os, prioridade } = req.body;
     const { id } = req.session.user;
 
 
@@ -14,7 +14,8 @@ router.post('/os', async (req, res) => {
             descricao: descricao,
             local_os: local_os,
             id: id,
-            tecnicoId
+            tecnicoId,
+            prioridade
         });
         
         // Enviar uma resposta indicando sucesso
@@ -110,6 +111,24 @@ router.put("/usuario/editar/:idUsuario", async (req, res) => {
 
     } catch (error) {
         res.json({ success: false, message: 'Erro ao editar usuário' });
+    }
+})
+
+router.put("/os/editar/:id", async (req, res) => {
+    const {id} = req.params
+    const {descricao, tecnicoId, prioridade, local_os} = req.body;
+
+    try {
+        await api.put(`/os/editar/${id}`, {
+            descricao,
+            tecnicoId,
+            prioridade,
+            local_os
+        })
+        
+        res.json({ success: true, message: 'OS editada com sucesso' });
+    } catch (error) {
+        res.json({ success: false, message: 'Erro ao editar OS' });
     }
 })
 

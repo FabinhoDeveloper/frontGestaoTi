@@ -1,26 +1,22 @@
-<div class="container mt-5">
+<div class="container mt-5"></div>
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header bg-primary text-white">
-                    <h5>Registrar OS</h5>
+                    <h5>Editar OS</h5>
                 </div>
                 <div class="card-body">
                     <form id="formCadastroOs" method="POST"> <!-- ID atualizado -->
                         <div class="form-group">
                             <label for="descricao">Descrição</label>
-                            <textarea id="descricao" name="descricao" class="form-control" rows="4" placeholder="Digite a descrição da OS..." required></textarea>
+                            <textarea id="descricao" name="descricao" class="form-control" rows="4" placeholder="Digite a descrição da OS..." required>{{os.descricao}}</textarea>
                         </div>
 
-                        {{#if (eq tipoUsuario "TECNICO")}}
-                            <div class="form-group form-check">
-                                <input type="checkbox" class="form-check-input" id="autoAtribuicao" name="tecnicoId" value="{{usuarioId}}">
-                                <label class="form-check-label" for="autoAtribuicao">Auto Atribuição</label>
-                            </div>
-                        {{else if (eq tipoUsuario "ADMINISTRADOR")}}
+                        {{#if (eq tipoUsuario "ADMINISTRADOR")}}
                             <div class="form-group">
-                                <label for="tecnico">Atribuir a Técnico</label>
+                                <label for="tecnico">Atribuição</label>
                                 <select id="tecnico" name="tecnicoId" class="form-control">
+                                    <option value="{{os.tecnicoId}}" selected>{{os.tecnico.nome}}</option>
                                     {{#each tecnicos}}
                                         <option value="{{this.id}}">{{this.nome}}</option>
                                     {{/each}}
@@ -32,17 +28,17 @@
                             <div class="form-group mb-3">
                                 <label for="local" class="form-label">Prioridade</label>
                                 <select class="form-control" id="prioridade" name="prioridade" required>
-                                    <option value="1" selected>Nível 1</option>
-                                    <option value="2">Nível 2</option>
-                                    <option value="3">Nível 3</option>
+                                    <option value="1" {{#if (eq os.prioridade 1)}}selected{{/if}}>Nível 1</option>
+                                    <option value="2" {{#if (eq os.prioridade 2)}}selected{{/if}}>Nível 2</option>
+                                    <option value="3" {{#if (eq os.prioridade 3)}}selected{{/if}}>Nível 3</option>
                                 </select>
-                            </div> 
+                            </div>
                         {{/if}}
 
                         <div class="form-group mb-3">
                             <label for="local" class="form-label">Local</label>
                             <select class="form-control" id="local" name="local_os" required>
-                                <option value="" disabled selected>Selecione o local</option>
+                                <option value="{{os.local_os}}" selected>{{os.local_os}}</option>
                                 <option value="Prefeitura">Prefeitura</option>
                                 <option value="Caneco">Caneco</option>
                                 <option value="PoupaTempo">Poupa Tempo</option>
@@ -82,6 +78,15 @@
         // Prevenir o comportamento padrão do formulário
         event.preventDefault();
 
+        function getIdFromUrl() {
+            const url = window.location.href;
+            const parts = url.split('/');
+
+            return parts[parts.length - 1]; // Assume que o ID da OS está no final da URL
+        }
+
+        console.log(getIdFromUrl())
+
         // Obter os dados do formulário
         const formData = new FormData(event.target);
         const data = {};
@@ -89,29 +94,28 @@
             data[key] = value;
         });
 
-        
+        const idOs = getIdFromUrl()
 
         // Adicionar o ID do usuário logado aos dados
-        data.id = "{{usuarioId}}";  // Corrigido: O ID do usuário logado vindo do backend como string
-        const tipoUsuario = "{{tipoUsuario}}";
         // Configurar a instância do Axios
 
         // Enviar a requisição POST
-        axios.post('/cadastrar/os', data)
-            .then(response => {
-                window.alert('OS cadastrada com sucesso!');
-
-                const tipoUsuario = "{{tipoUsuario}}";  // Obter o tipo de usuário vindo do backend
-
-                if (tipoUsuario === "PADRAO") {
-                    window.location.href = "/vizualizar/os-cadastradas";
-                } else {
-                    window.location.href = "/vizualizar/todas-os";
-                }
-            })
-            .catch(error => {
-                console.error('Erro ao cadastrar OS:', error);
-                window.alert("Erro ao cadastrar OS!");
-            });
+        if (window.confirm('Confirmar a edição desta OS?')) {
+            axios.put(`/cadastrar/os/editar/${idOs}`, data)
+                .then(response => {
+                    // Manipular a resposta bem-sucedida
+                    window.alert(response.data.message);
+                    window.location.href = "/vizualizar/todas-os"//window.location.href.split('?')[0] + '?';
+                    // Você pode adicionar lógica para limpar o formulário ou redirecionar o usuário aqui
+                })
+                .catch(error => {
+                    // Manipular erros
+                    console.error('Erro ao editar OS:', error);
+                    window.alert("Erro ao editar OS!")
+                    // Você pode adicionar lógica para exibir uma mensagem de erro ao usuário aqui
+                });
+        } else {
+            console.log('Operação de edição cancelada.');
+        }        
     });
 </script>

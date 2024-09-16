@@ -20,7 +20,17 @@
                     <div class="card-body">
                         <p class="card-text">{{this.descricao}}</p>
                         <p class="card-text"><strong>Status:</strong> {{this.status_os}}</p>
-                        <p class="mt-2"><strong>Técnico:</strong> {{this.tecnico.nome}}</p>
+                        {{#if this.prioridade}}
+                            <p class="card-text"><strong>Prioridade:</strong> {{this.prioridade}}</p>    
+                        {{else}}                        
+                            <p class="card-text"><strong>Prioridade:</strong> Não definida</p>    
+                        {{/if}}
+
+                        {{#if this.tecnico.nome}}
+                            <p class="mt-2"><strong>Técnico:</strong> {{this.tecnico.nome}}</p>
+                        {{else}}
+                            <p class="mt-2"><strong>Técnico:</strong> Não atribuída</p>
+                        {{/if}}
                         <p><strong>Data:</strong> {{formatarData this.data_criacao}}</p>
                         <p><strong>Requerente: </strong>{{this.usuario.nome}}</p>
                         <p><strong>Data de Fechamento: </strong>{{formatarData this.data_fechamento}}</p>

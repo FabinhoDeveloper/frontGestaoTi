@@ -118,6 +118,7 @@ router.get("/cadastro-os", authMiddleware.verificaLogin, async (req, res) => {
         user: req.session.user,
         tipoUsuario: req.session.user.tipo,
         usuarioId: req.session.user.id,
+        isNotPadrao: req.session.user.tipo !== "PADRAO",
         tecnicos,
         titulo: "Cadastrar nova OS",
         botao: "Cadastrar",
@@ -169,6 +170,42 @@ router.get("/finalizar-os/:id", authMiddleware.verificaLoginTecnicoOuAdministrad
             user: req.session.user,
             descricao: os.descricao,
             title: "Concluir OS - Gestão TI",
+        })    
+    } catch (error) {
+        if (error.response && error.response.status === 404) {
+            res.render("vizualizar_historico_os", {
+                layout: verificaTipoUsuario(req.session.user),
+                user: req.session.user,
+                ordensDeServico: [],
+                title: "Atribuições - Gestão TI",
+            });
+        } else {
+            console.error('Erro ao buscar ordens de serviço:', error);
+            res.status(500).send('Erro interno do servidor');
+        }
+    }
+})
+
+router.get("/editar-os/:id", authMiddleware.verificaLoginTecnicoOuAdministrador, async (req, res) => {
+    const {id} = req.params
+    
+    try {
+        const response = await api.get(`/os/listar/${id}`)
+        const os = response.data
+
+        const responseTecnico = await api.get("/usuario/listar")
+        const tecnicos = responseTecnico.data.filter(usuario => usuario.tipo !== "PADRAO");
+
+        res.render("editar_os", {
+            layout: verificaTipoUsuario(req.session.user),
+            user: req.session.user,
+            descricao: os.descricao,
+            title: "Editar OS - Gestão TI",
+            botao: "Editar",
+            isNotPadrao: req.session.user.tipo !== "PADRAO",
+            tipoUsuario: req.session.user.tipo,
+            tecnicos,
+            os
         })    
     } catch (error) {
         if (error.response && error.response.status === 404) {

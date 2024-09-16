@@ -10,6 +10,9 @@
                     </div>
                     <div class="card-body">
                         <p class="card-text">{{this.descricao}}</p>
+                        {{#if isNotPadrao}}
+                            <p class="card-text"><strong>Prioridade:</strong> {{this.prioridade}}</p>    
+                        {{/if}}
                         <p class="card-text"><strong>Status:</strong> {{this.status_os}}</p>
                         {{#if this.tecnico}}
                             {{#if this.tecnico.nome}}

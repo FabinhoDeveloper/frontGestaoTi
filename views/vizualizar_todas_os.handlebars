@@ -10,6 +10,11 @@
                     </div>
                     <div class="card-body">
                         <p class="card-text">{{this.descricao}}</p>
+                        {{#if this.prioridade}}
+                            <p class="card-text"><strong>Prioridade:</strong> {{this.prioridade}}</p>    
+                        {{else}}
+                            <p class="card-text"><strong>Prioridade:</strong> Indefinida</p>    
+                        {{/if}}
                         <p class="card-text"><strong>Status:</strong> {{this.status_os}}</p>
                         {{#if this.tecnico.nome}}
                             <p class="mt-2"><strong>Técnico:</strong> {{this.tecnico.nome}}</p>
@@ -21,6 +26,7 @@
                         <p><strong>Local:</strong> {{this.local_os}}</p>
                     </div>
                     <div class="card-footer d-flex justify-content-between">
+                        <a href="/vizualizar/editar-os/{{this.id}}" class="btn btn-sm btn-primary">Editar</a> 
                         {{#if @root.isAdmin}}
                             <a href="/vizualizar/atribuir/{{this.id}}" class="btn btn-sm btn-primary">Atribuir</a>
                         {{else}}
