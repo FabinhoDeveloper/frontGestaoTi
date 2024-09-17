@@ -94,18 +94,26 @@
             data[key] = value;
         });
 
+        const tipoUsuario = '{{user.tipo}}'
+
+
         const idOs = getIdFromUrl()
 
         // Adicionar o ID do usuário logado aos dados
         // Configurar a instância do Axios
-
         // Enviar a requisição POST
         if (window.confirm('Confirmar a edição desta OS?')) {
-            axios.put(`/cadastrar/os/editar/${idOs}`, data)
+            axios.post(`/cadastrar/os/editar/${idOs}`, data)
                 .then(response => {
                     // Manipular a resposta bem-sucedida
                     window.alert(response.data.message);
-                    window.location.href = "/vizualizar/todas-os"//window.location.href.split('?')[0] + '?';
+                    
+
+                    if (tipoUsuario == "PADRAO")
+                        window.location.href = "/vizualizar/os-cadastradas"//window.location.href.split('?')[0] + '?';
+                    else {
+                        window.location.href = "/vizualizar/todas-os"//window.location.href.split('?')[0] + '?';
+                    }
                     // Você pode adicionar lógica para limpar o formulário ou redirecionar o usuário aqui
                 })
                 .catch(error => {

@@ -114,7 +114,7 @@ router.put("/usuario/editar/:idUsuario", async (req, res) => {
     }
 })
 
-router.put("/os/editar/:id", async (req, res) => {
+router.post("/os/editar/:id", async (req, res) => {
     const {id} = req.params
     const {descricao, tecnicoId, prioridade, local_os} = req.body;
 

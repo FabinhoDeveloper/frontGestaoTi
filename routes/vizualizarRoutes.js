@@ -186,7 +186,7 @@ router.get("/finalizar-os/:id", authMiddleware.verificaLoginTecnicoOuAdministrad
     }
 })
 
-router.get("/editar-os/:id", authMiddleware.verificaLoginTecnicoOuAdministrador, async (req, res) => {
+router.get("/editar-os/:id", authMiddleware.verificaLogin, async (req, res) => {
     const {id} = req.params
     
     try {

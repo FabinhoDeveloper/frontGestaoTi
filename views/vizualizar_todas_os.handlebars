@@ -11,7 +11,7 @@
                     <div class="card-body">
                         <p class="card-text">{{this.descricao}}</p>
                         {{#if this.prioridade}}
-                            <p class="card-text"><strong>Prioridade:</strong> {{this.prioridade}}</p>    
+                            <p class="card-text"><strong>Prioridade:</strong> Nível {{this.prioridade}}</p>    
                         {{else}}
                             <p class="card-text"><strong>Prioridade:</strong> Indefinida</p>    
                         {{/if}}
@@ -30,7 +30,7 @@
                         {{#if @root.isAdmin}}
                             <a href="/vizualizar/atribuir/{{this.id}}" class="btn btn-sm btn-primary">Atribuir</a>
                         {{else}}
-                            <button onclick="atribuirOsASiMesmo({{this.id}}, {{@root.usuarioId}})" class="btn btn-sm btn-primary">Atrubuir-se</button>
+                            <button onclick="atribuirOsASiMesmo({{this.id}}, {{@root.usuarioId}})" class="btn btn-sm btn-primary">Atrubuir</button>
                         {{/if}}
 
                         <button onclick="cancelarOs({{this.id}})" class="btn btn-sm btn-danger">Cancelar</button>

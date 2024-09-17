@@ -11,7 +11,7 @@
                     <div class="card-body">
                         <p class="card-text">{{this.descricao}}</p>
                         {{#if isNotPadrao}}
-                            <p class="card-text"><strong>Prioridade:</strong> {{this.prioridade}}</p>    
+                            <p class="card-text"><strong>Prioridade:</strong> Nível {{this.prioridade}}</p>    
                         {{/if}}
                         <p class="card-text"><strong>Status:</strong> {{this.status_os}}</p>
                         {{#if this.tecnico}}
@@ -38,6 +38,7 @@
                         {{else if (eq this.status_os "CANCELADA") }}
                             <p>OS Cancelada</p>
                         {{else}}
+                            <a href="/vizualizar/editar-os/{{this.id}}" class="btn btn-sm btn-primary">Editar</a> 
                             <button onclick="cancelarOs({{this.id}})" class="btn btn-sm btn-danger">Cancelar</button>
                         {{/if}}
                     </div>
