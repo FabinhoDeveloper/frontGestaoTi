@@ -17,7 +17,7 @@
                     <div class="card-header bg-primary text-white">
                         {{this.titulo}}
                     </div>
-                    <div class="card-body">
+                    <div class="card-body d-flex flex-column">
                         <p class="card-text">{{this.descricao}}</p>
                         <p class="card-text"><strong>Status:</strong> {{this.status_os}}</p>
                         {{#if this.prioridade}}
@@ -37,8 +37,11 @@
                         <p><strong>Local: </strong>{{this.local_os}}</p>
                         {{#if this.observacao}}
                             <p><strong>Observações: </strong></p>
-                            <textarea class="observacoes-textarea" readonly>{{this.observacao}}</textarea>
+                            <textarea class="observacoes-textarea mb-3" readonly>{{this.observacao}}</textarea>
                         {{/if}}
+                        
+                        <!-- Botão com margem automática no topo, margem inferior, e largura automática -->
+                        <button onclick="reabrirOs({{this.id}})" class="btn btn-primary mt-auto w-auto">Re-abrir</button>
                     </div>
                 </div>
             </div>
@@ -50,3 +53,27 @@
         {{/if}}
     </div>
 </div>
+
+<script>
+    const userTipo = "{{user.tipo}}"
+
+    function reabrirOs(id) {
+        if (window.confirm('Tem certeza que deseja re-abrir esta OS?')) {
+            axios.post(`/cadastrar/os/reabrir/${id}`)
+                .then(response => {
+                    window.alert(response.data.message);
+                    if (userTipo == "PADRAO") {
+                        window.location.href = "/vizualizar/os-cadastradas";
+                    } else {
+                        window.location.href = "/vizualizar/todas-os";
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao re-abrir OS:', error);
+                    alert('Ocorreu um erro ao re-abrir a OS.');
+                });
+        } else {
+            console.log('Operação de re-abrir cancelada.');
+        }
+    }
+</script>

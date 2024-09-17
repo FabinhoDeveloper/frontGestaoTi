@@ -75,6 +75,18 @@ router.post("/os/cancelar/:id", async (req, res) => {
     }
 })
 
+router.post("/os/reabrir/:id", async (req, res) => {
+    const {id} = req.params
+
+    try {
+        await api.post(`/os/reabrir/${id}`)
+
+        res.json({ success: true, message: 'OS re-aberta com sucesso' })
+    } catch (error) {
+        res.json({ success: false, message: 'Erro ao reabrir OS' })
+    }
+})
+
 router.post("/usuario", async (req, res) => {
     const {nome, email, senha, tipo, local_de_trabalho} = req.body;
     

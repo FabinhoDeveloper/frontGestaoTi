@@ -24,6 +24,9 @@
                             <p class="mt-2"><strong>Técnico:</strong> Não atribuída</p>
                         {{/if}}
                         <p><strong>Data:</strong> {{formatarData this.data_criacao}}</p>
+                        {{#if this.data_fechamento}}
+                        <p><strong>Data de Fechamento: </strong>{{formatarData this.data_fechamento}}</p>
+                        {{/if}}
                         <p><strong>Local:</strong> {{this.local_os}}</p>
 
                     </div>
@@ -33,9 +36,11 @@
                         {{/if}}
 
                         {{#if (eq this.status_os "CONCLUÍDA")}}
+                            <button onclick="reabrirOs({{this.id}})" class="btn btn-primary mt-auto w-auto">Re-abrir</button>
                             <p>OS Concluída</p>
 
                         {{else if (eq this.status_os "CANCELADA") }}
+                            <button onclick="reabrirOs({{this.id}})" class="btn btn-primary mt-auto w-auto">Re-abrir</button>
                             <p>OS Cancelada</p>
                         {{else}}
                             <a href="/vizualizar/editar-os/{{this.id}}" class="btn btn-sm btn-primary">Editar</a> 
@@ -54,6 +59,8 @@
 </div>
 
 <script>
+    const userTipo = "{{user.tipo}}"
+
     const api = axios.create({
         baseURL: '{{baseURL}}',
         timeout: 10000,
@@ -76,6 +83,26 @@
                 });
         } else {
             console.log('Operação de cancelamento cancelada.');
+        }
+    }
+
+    function reabrirOs(id) {
+        if (window.confirm('Tem certeza que deseja re-abrir esta OS?')) {
+            axios.post(`/cadastrar/os/reabrir/${id}`)
+                .then(response => {
+                    window.alert(response.data.message);
+                    if (userTipo == "PADRAO") {
+                        window.location.href = "/vizualizar/os-cadastradas";
+                    } else {
+                        window.location.href = "/vizualizar/todas-os";
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao re-abrir OS:', error);
+                    alert('Ocorreu um erro ao re-abrir a OS.');
+                });
+        } else {
+            console.log('Operação de re-abrir cancelada.');
         }
     }
 </script>
