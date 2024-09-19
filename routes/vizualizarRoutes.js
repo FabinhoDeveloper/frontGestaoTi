@@ -86,8 +86,6 @@ router.get("/os-atribuidas", authMiddleware.verificaLoginTecnicoOuAdministrador,
 
         const ordensDeServico = Array.isArray(listaOs) ? listaOs.filter(os => os.status_os === "PENDENTE").reverse() : [];
 
-        console.log(ordensDeServico)
-
         res.render("vizualizar_os_atribuidas", {
             layout: verificaTipoUsuario(req.session.user),
             user: req.session.user,

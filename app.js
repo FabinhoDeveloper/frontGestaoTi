@@ -37,7 +37,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Configuração de sessão
 app.use(session({
     secret: process.env.SESSION_SECRET, // chave secreta para criptografia da sessão
-    resave: false,
+    resave: true,
     saveUninitialized: false,
     cookie: { secure: false } // Em produção, isso deve ser 'true' se usar HTTPS
 }));
